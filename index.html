@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Dual Vibe - Final 3D</title>
+    <title>The Dual Vibe - Premium 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Nunito:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none; -webkit-tap-highlight-color: transparent; }
         body, html { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Nunito', sans-serif; }
@@ -23,17 +25,16 @@
         .door-boy { background: linear-gradient(135deg, #1a0000, #050505); color: #ff0000; border-left: 2px solid #ff0000; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .door:hover { flex: 1.4; }
 
-        /* --- WORLDS (Normal Smooth Scroll) --- */
+        /* --- WORLDS --- */
         .world {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; opacity: 0;
-            overflow-y: auto; overflow-x: hidden; 
-            scroll-behavior: smooth; transition: opacity 1s ease-in-out;
+            overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; transition: opacity 1s ease-in-out;
         }
 
-        /* --- SECTION STRUCTURE --- */
+        /* --- SECTION STRUCTURE (Fixed Alignment) --- */
         .section {
             width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            position: relative; padding: 40px 20px; 
+            position: relative; padding: 40px 20px; overflow: hidden;
         }
 
         /* --- SCROLL INDICATOR --- */
@@ -46,18 +47,31 @@
         .scroll-down-icon::after { content: '↓'; font-size: 1.5rem; }
         @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }
 
-        /* --- PARALLAX TEXTS --- */
+        /* --- PERFECT ALIGNED PARALLAX TEXTS --- */
+        /* Center Behind Card */
         .para-bold {
-            position: absolute; top: 30%; left: 0; width: 100%; text-align: center;
-            font-size: clamp(3.5rem, 18vw, 10rem); font-weight: 900; text-transform: uppercase;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; text-align: center; white-space: nowrap;
+            font-size: clamp(4rem, 20vw, 12rem); font-weight: 900; text-transform: uppercase;
             color: transparent; z-index: 0; pointer-events: none;
         }
+        /* Top Above Card */
         .para-quote {
-            position: absolute; top: 55%; left: 0; width: 100%; text-align: center;
+            position: absolute; top: 12%; left: 50%; transform: translateX(-50%);
+            width: 90%; text-align: center;
             font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 700; color: #fff;
             text-shadow: 0 5px 15px rgba(0,0,0,0.9); font-style: italic;
-            z-index: 0; pointer-events: none; letter-spacing: 1px;
+            z-index: 0; pointer-events: none; letter-spacing: 1px; line-height: 1.3;
         }
+
+        /* --- TAP BADGE --- */
+        .tap-badge {
+            float: right; font-size: 0.7rem; font-family: 'Nunito', sans-serif;
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
+            padding: 4px 10px; border-radius: 20px; font-weight: 900; letter-spacing: 1px;
+            animation: pulseTap 1.5s infinite; color: inherit; text-transform: uppercase;
+        }
+        @keyframes pulseTap { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
         /* =========================================
            GIRL WORLD (Cinderella Magic)
@@ -67,7 +81,6 @@
         #world-girl .para-bold { -webkit-text-stroke: 3px rgba(255, 255, 255, 0.4); font-family: 'Nunito', sans-serif; }
         #world-girl .para-quote { color: #fff; text-shadow: 0 2px 10px rgba(255,20,147,1); }
 
-        /* Floating Cinderella Elements */
         .floating-magic { position: absolute; font-size: 3rem; opacity: 0.3; z-index: 0; animation: floatMagic 8s infinite alternate ease-in-out; pointer-events: none; }
         .fm-1 { top: 15%; left: 10%; animation-delay: 0s; }
         .fm-2 { top: 60%; right: 10%; animation-delay: -3s; }
@@ -78,18 +91,21 @@
             background: rgba(255, 255, 255, 0.15); padding: 30px; border-radius: 20px; text-align: center;
             font-size: 1.5rem; font-weight: 900; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.5); z-index: 10; line-height: 1.4;
+            transform-style: preserve-3d;
         }
 
-        /* Premium Glass Cards */
         .g-card {
             background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
             border-radius: 25px; padding: 25px; width: 100%; max-width: 450px; z-index: 10;
             box-shadow: 0 15px 40px rgba(255, 20, 147, 0.3); border: 2px solid #fff; 
             color: #d81b60; opacity: 0; transform: scale(0.9) translateY(50px); transition: opacity 0.8s, transform 0.8s;
-            transform-style: preserve-3d;
+            transform-style: preserve-3d; display: block;
         }
         .g-card.visible { opacity: 1; transform: scale(1) translateY(0); }
-        .g-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; transform: translateZ(30px); }
+        .g-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(255,255,255,0.5); }
+        
+        .g-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; text-transform: uppercase; transform: translateZ(30px); display: flex; align-items: center; gap: 10px; }
+        .g-title i { font-size: 1.8rem; color: #ff1493; } /* Icon Style */
         .g-flirt { font-size: 1.1rem; color: #333; font-weight: 700; line-height: 1.5; transform: translateZ(20px); }
 
         .g-closing {
@@ -117,7 +133,7 @@
             50% { text-shadow: -2px 2px 0px rgba(255,0,0,0.5), 2px -2px 0px rgba(0,0,255,0.5); }
         }
 
-        #world-boy .para-bold { -webkit-text-stroke: 4px rgba(255, 0, 0, 0.4); font-family: 'Montserrat', sans-serif; }
+        #world-boy .para-bold { -webkit-text-stroke: 4px rgba(255, 0, 0, 0.3); font-family: 'Montserrat', sans-serif; }
         #world-boy .para-quote { color: #eee; text-transform: uppercase; letter-spacing: 3px; font-style: normal; }
 
         .b-card {
@@ -125,12 +141,22 @@
             padding: 30px; border-radius: 15px; color: #fff; z-index: 10;
             box-shadow: 0 20px 50px rgba(255,0,0,0.15); backdrop-filter: blur(10px);
             opacity: 0; transform: scale(0.9) translateY(50px); transition: opacity 0.8s, transform 0.8s;
-            transform-style: preserve-3d;
+            transform-style: preserve-3d; display: block;
         }
         .b-card.visible { opacity: 1; transform: scale(1) translateY(0); border-color: #ff0000; box-shadow: 0 20px 60px rgba(255,0,0,0.4); }
         
         .b-num { font-size: 5rem; color: #ff0000; font-weight: 900; line-height: 1; opacity: 0.9; text-shadow: 4px 4px 0px #330000; margin-bottom: 10px; transform: translateZ(40px); display: block; }
-        .b-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; transform: translateZ(20px); display: block; }
+        .b-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; transform: translateZ(20px); display: flex; align-items: center; gap: 12px; }
+        .b-title i { font-size: 2rem; color: #fff; } /* Icon Style */
+
+        /* Red Tap Badge for Boys */
+        .tap-badge-boy {
+            float: right; font-size: 0.7rem; font-family: 'Montserrat', sans-serif;
+            background: rgba(255,0,0,0.2); border: 1px solid rgba(255,0,0,0.5);
+            padding: 4px 10px; border-radius: 5px; font-weight: 900; letter-spacing: 2px;
+            animation: pulseTapBoy 1.5s infinite; color: #ff0000; margin-top: -30px;
+        }
+        @keyframes pulseTapBoy { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,0,0,0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255,0,0,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,0,0,0); } }
 
         .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; }
         .spotify-wrap.visible { opacity: 1; transform: translateY(0); }
@@ -157,61 +183,65 @@
         <div class="floating-magic fm-3">✨</div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.2">PRINCESS</div>
-            <div class="para-quote para-layer" data-speed="0.4">"Leave a little sparkle wherever you go."</div>
-            <div class="main-flirt">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">PRINCESS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Rules are made to be broken."</div>
+            <div class="main-flirt tilt-card">
                 Stranger hoon... par ek baar scroll karogi, toh ignore nahi kar paogi. Let's play a game! 😏✨
             </div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.15">AESTHETIC</div>
-            <div class="para-quote para-layer" data-speed="0.35">"Eyes never lie."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">OBSESSED</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"Eyes never lie."</div>
             <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item tilt-card">
-                <div class="g-title">📸 Instagram</div>
+                <span class="tap-badge">TAP 👆</span>
+                <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
                 <div class="g-flirt">Tasveerein toh sab dekhte hain, par meri aankhon ka nasha sirf unhe dikhta hai jo theherna jante hain. Tap if you dare. 🔥</div>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.25">ADDICTION</div>
-            <div class="para-quote para-layer" data-speed="0.45">"Too glam to give a damn."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.25">ADDICTION</div>
+            <div class="para-quote para-layer center-x" data-speed="0.45">"Too glam to give a damn."</div>
             <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item tilt-card">
-                <div class="g-title">👻 Snapchat</div>
+                <span class="tap-badge">TAP 👆</span>
+                <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
                 <div class="g-flirt">Snap bhejna aasan hai, par mere dimaag mein jagah banana thoda mushkil. Try karna hai ya darr gayi? 💅</div>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.1">MIDNIGHTS</div>
-            <div class="para-quote para-layer" data-speed="0.3">"Midnight confessions."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.1">MIDNIGHTS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.3">"Midnight confessions."</div>
             <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item tilt-card">
-                <div class="g-title">💬 WhatsApp</div>
+                <span class="tap-badge">TAP 👆</span>
+                <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
                 <div class="g-flirt">Number toh saamne hai, par pehla message main nahi karunga. Let’s see tumhara ego bada hai ya curiosity! 😉</div>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.2">SECRETS</div>
-            <div class="para-quote para-layer" data-speed="0.4">"Rule breaker, heart taker."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">SECRETS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Rule breaker, heart taker."</div>
             <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item tilt-card">
-                <div class="g-title">🖤 Secret Vibe</div>
+                <span class="tap-badge">TAP 👆</span>
+                <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
                 <div class="g-flirt">Rules todne ka shauk ho toh yahan aana. Yahan koi filter nahi hai, sirf raw vibe hai. 🤫✨</div>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.15">VIBES</div>
-            <div class="para-quote para-layer" data-speed="0.35">"Music hits different at 2 AM."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">VIBES</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"Music hits different at 2 AM."</div>
             <div class="spotify-wrap scroll-item" style="box-shadow: 0 10px 40px rgba(255,20,147,0.5);">
                 <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.2">GOODBYE?</div>
-            <div class="para-quote para-layer" data-speed="0.4">"Until we meet again."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">GAME OVER</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Until we meet again."</div>
             <div class="g-closing scroll-item">
                 Chhod ke jaa rahi ho? Koi baat nahi. <br>
                 Par yaad rakhna, wapas aane ka raasta tum bhool nahi paogi. <br>
@@ -227,62 +257,67 @@
         <canvas id="spidey-canvas"></canvas>
 
         <div class="section">
-            <div class="para-bold para-layer glitch-text" data-speed="0.2">YASER</div>
-            <div class="para-quote para-layer" data-speed="0.4">"Silence is my superpower."</div>
+            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">YASER</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Silence is my superpower."</div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.15">SPIDERMAN</div>
-            <div class="para-quote para-layer" data-speed="0.35">"With great power comes great responsibility."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SPIDERMAN</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"With great power comes great responsibility."</div>
             <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="b-card scroll-item tilt-card">
+                <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">01</span>
-                <span class="b-title">Main Profile ↗</span>
+                <span class="b-title"><i class="fab fa-instagram"></i> Main Profile</span>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.25">SHADOWS</div>
-            <div class="para-quote para-layer" data-speed="0.45">"We operate in the dark."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.25">SHADOWS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.45">"We operate in the dark."</div>
             <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="b-card scroll-item tilt-card">
+                <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">02</span>
-                <span class="b-title">Shadow Identity ↗</span>
+                <span class="b-title"><i class="fab fa-instagram"></i> Shadow Identity</span>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.1">WEB-SLINGER</div>
-            <div class="para-quote para-layer" data-speed="0.3">"My spider-sense is tingling."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.1">WEB-SLINGER</div>
+            <div class="para-quote para-layer center-x" data-speed="0.3">"My spider-sense is tingling."</div>
             <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="b-card scroll-item tilt-card">
+                <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">03</span>
-                <span class="b-title">Snapchat Base ↗</span>
+                <span class="b-title"><i class="fab fa-snapchat-ghost"></i> Snapchat Base</span>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.2">VENOM</div>
-            <div class="para-quote para-layer" data-speed="0.4">"Embrace the darkness."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">VENOM</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Embrace the darkness."</div>
             <a href="https://api.whatsapp.com/send?phone=919356047251" class="b-card scroll-item tilt-card">
+                <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">04</span>
-                <span class="b-title">WhatsApp Comms ↗</span>
+                <span class="b-title"><i class="fab fa-whatsapp"></i> WhatsApp Comms</span>
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer" data-speed="0.15">SILENCE</div>
-            <div class="para-quote para-layer" data-speed="0.35">"Let the music speak."</div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
             <div class="spotify-wrap scroll-item" style="border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3);">
                 <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer glitch-text" data-speed="0.2">THE END</div>
-            <div class="para-quote para-layer" data-speed="0.4">"MISSION ACCOMPLISHED."</div>
-            <div class="b-closing scroll-item">
+            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">THE END</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"MISSION ACCOMPLISHED."</div>
+            <div class="b-closing scroll-item tilt-card">
                 Bohot dekh liya. <br><br>
                 Ab tab close kar aur wapas apne raaste nikal. Yahan dosti nahi, sirf silence milti hai. 🌑
             </div>
+     
         </div>
         
         <div style="height: 10vh;"></div>
@@ -315,6 +350,7 @@
             }, 800);
         };
 
+        // PARALLAX EFFECT WITH PERFECT ALIGNMENT FIX
         const setupParallax = (worldId) => {
             const world = document.getElementById(worldId);
             const layers = world.querySelectorAll('.para-layer');
@@ -324,7 +360,14 @@
                     let scrolled = world.scrollTop;
                     layers.forEach(layer => {
                         let speed = layer.getAttribute('data-speed');
-                        layer.style.transform = `translateY(${scrolled * speed}px)`;
+                        let isCenterX = layer.classList.contains('center-x');
+                        let isCenterY = layer.classList.contains('center-y');
+                        
+                        let xBase = isCenterX ? '-50%' : '0px';
+                        let yBase = isCenterY ? '-50%' : '0px';
+                        
+                        // Keeps it perfectly centered while adding the scroll parallax
+                        layer.style.transform = `translate(${xBase}, calc(${yBase} + ${scrolled * speed}px))`;
                     });
                 });
             });
@@ -468,4 +511,3 @@
     </script>
 </body>
 </html>
-   
