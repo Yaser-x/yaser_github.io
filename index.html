@@ -3,41 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Dual Vibe - Premium 3D</title>
+    <title>The Dual Vibe - Premium Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Nunito:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-        body, html { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Nunito', sans-serif; }
+        body, html { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Nunito', sans-serif; transition: background 0.5s; }
 
-        /* --- SMOOTH GATEKEEPER ENTRY --- */
+        /* --- GATEKEEPER ENTRY --- */
         #gate {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 99999;
-            transition: opacity 0.8s ease-in-out, transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease;
         }
         .door {
             flex: 1; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer;
-            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1); font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 900;
+            transition: flex 0.6s ease; font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 900;
             border: none; outline: none; position: relative; overflow: hidden;
         }
         .door-girl { background: linear-gradient(135deg, #ff1493, #ff69b4); color: #fff; text-shadow: 2px 2px 10px #ff007f; }
         .door-boy { background: linear-gradient(135deg, #1a0000, #050505); color: #ff0000; border-left: 2px solid #ff0000; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .door:hover { flex: 1.4; }
 
+        /* --- NAME MODAL (GIRLS ONLY) --- */
+        #name-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 100000; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); flex-direction: column; opacity: 0; transition: opacity 0.5s;
+        }
+        .modal-box {
+            background: linear-gradient(135deg, #ff69b4, #ff1493); padding: 30px; border-radius: 20px;
+            text-align: center; color: white; box-shadow: 0 10px 40px rgba(255,20,147,0.5); width: 90%; max-width: 350px;
+            transform: translateY(50px); transition: transform 0.5s; border: 2px solid #fff;
+        }
+        .modal-box h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; text-transform: uppercase; }
+        .modal-box input {
+            width: 100%; padding: 15px; border-radius: 10px; border: none; font-family: 'Nunito', sans-serif;
+            font-size: 1.2rem; font-weight: 700; text-align: center; color: #d81b60; outline: none;
+        }
+        .modal-box button {
+            margin-top: 20px; width: 100%; padding: 15px; background: #fff; color: #d81b60;
+            border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 900; cursor: pointer;
+            font-family: 'Nunito', sans-serif; text-transform: uppercase;
+        }
+
         /* --- WORLDS --- */
         .world {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; opacity: 0;
             overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; transition: opacity 1s ease-in-out;
         }
+        .section { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; padding: 40px 20px; overflow: hidden; transition: all 1s ease; }
 
-        /* --- SECTION STRUCTURE (Fixed Alignment) --- */
-        .section {
-            width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center;
-            position: relative; padding: 40px 20px; overflow: hidden;
-        }
-
-        /* --- SCROLL INDICATOR --- */
         .scroll-down-icon {
             position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 5px;
@@ -48,23 +64,18 @@
         @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }
 
         /* --- PERFECT ALIGNED PARALLAX TEXTS --- */
-        /* Center Behind Card */
         .para-bold {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; text-align: center; white-space: nowrap;
             font-size: clamp(4rem, 20vw, 12rem); font-weight: 900; text-transform: uppercase;
             color: transparent; z-index: 0; pointer-events: none;
         }
-        /* Top Above Card */
         .para-quote {
             position: absolute; top: 12%; left: 50%; transform: translateX(-50%);
-            width: 90%; text-align: center;
-            font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 700; color: #fff;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.9); font-style: italic;
-            z-index: 0; pointer-events: none; letter-spacing: 1px; line-height: 1.3;
+            width: 90%; text-align: center; font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 700; color: #fff;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.9); font-style: italic; z-index: 0; pointer-events: none; letter-spacing: 1px;
         }
 
-        /* --- TAP BADGE --- */
         .tap-badge {
             float: right; font-size: 0.7rem; font-family: 'Nunito', sans-serif;
             background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
@@ -74,7 +85,7 @@
         @keyframes pulseTap { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
         /* =========================================
-           GIRL WORLD (Cinderella Magic)
+           GIRL WORLD
         ========================================= */
         #world-girl { background: linear-gradient(135deg, #ff85c1 0%, #ff1493 100%); color: #fff; cursor: crosshair; }
         #world-girl .scroll-down-icon { color: #fff; text-shadow: 0 2px 5px #ff007f; }
@@ -105,7 +116,7 @@
         .g-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(255,255,255,0.5); }
         
         .g-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; text-transform: uppercase; transform: translateZ(30px); display: flex; align-items: center; gap: 10px; }
-        .g-title i { font-size: 1.8rem; color: #ff1493; } /* Icon Style */
+        .g-title i { font-size: 1.8rem; color: #ff1493; }
         .g-flirt { font-size: 1.1rem; color: #333; font-weight: 700; line-height: 1.5; transform: translateZ(20px); }
 
         .g-closing {
@@ -120,7 +131,7 @@
         @keyframes pop { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.5) rotate(90deg) translateY(-50px); opacity: 0; } }
 
         /* =========================================
-           BOY WORLD (Spidey Glitch & 3D Cards)
+           BOY WORLD
         ========================================= */
         #world-boy { background: #050505; font-family: 'Montserrat', sans-serif; }
         #world-boy .scroll-down-icon { color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.8); }
@@ -147,9 +158,8 @@
         
         .b-num { font-size: 5rem; color: #ff0000; font-weight: 900; line-height: 1; opacity: 0.9; text-shadow: 4px 4px 0px #330000; margin-bottom: 10px; transform: translateZ(40px); display: block; }
         .b-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; transform: translateZ(20px); display: flex; align-items: center; gap: 12px; }
-        .b-title i { font-size: 2rem; color: #fff; } /* Icon Style */
+        .b-title i { font-size: 2rem; color: #fff; }
 
-        /* Red Tap Badge for Boys */
         .tap-badge-boy {
             float: right; font-size: 0.7rem; font-family: 'Montserrat', sans-serif;
             background: rgba(255,0,0,0.2); border: 1px solid rgba(255,0,0,0.5);
@@ -161,20 +171,37 @@
         .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; }
         .spotify-wrap.visible { opacity: 1; transform: translateY(0); }
 
-        .b-closing {
-            font-size: 1.4rem; font-weight: 900; text-align: center; color: #cc0000; text-transform: uppercase;
-            letter-spacing: 3px; border: 2px solid #330000; padding: 25px; background: rgba(0,0,0,0.8);
-            z-index: 10; width: 90%; max-width: 500px; backdrop-filter: blur(5px);
-            opacity: 0; transform: translateY(50px); transition: 1s;
+        /* THE BLACKOUT BUTTON */
+        .btn-blackout {
+            font-size: 1.5rem; font-weight: 900; text-align: center; color: #000; text-transform: uppercase;
+            letter-spacing: 4px; border: none; padding: 25px 40px; background: #ff0000;
+            z-index: 10; width: 90%; max-width: 500px; cursor: pointer; border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255,0,0,0.5); transition: 0.3s;
         }
-        .b-closing.visible { opacity: 1; transform: translateY(0); }
+        .btn-blackout:hover { background: #cc0000; box-shadow: 0 0 50px rgba(255,0,0,0.8); transform: scale(1.05); }
+
+        /* Blackout Offline Text (Hidden by default) */
+        #offline-text {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #ff0000; font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; letter-spacing: 15px;
+            font-family: 'Montserrat', sans-serif; z-index: 999999; text-shadow: 0 0 20px #ff0000;
+            animation: glitch 2s infinite; text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
     <div id="gate">
-        <button class="door door-girl" onclick="startWorld('world-girl')">FOR HER 💋</button>
+        <button class="door door-girl" onclick="askGirlName()">FOR HER 💋</button>
         <button class="door door-boy" onclick="startWorld('world-boy')">FOR HIM 🕷️</button>
+    </div>
+
+    <div id="name-modal">
+        <div class="modal-box">
+            <h2>Who is this?</h2>
+            <input type="text" id="girl-name-input" placeholder="Your sweet name..." autocomplete="off">
+            <button onclick="submitGirlName()">Enter My World</button>
+        </div>
     </div>
 
     <div id="world-girl" class="world">
@@ -185,9 +212,8 @@
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">PRINCESS</div>
             <div class="para-quote para-layer center-x" data-speed="0.4">"Rules are made to be broken."</div>
-            <div class="main-flirt tilt-card">
-                Stranger hoon... par ek baar scroll karogi, toh ignore nahi kar paogi. Let's play a game! 😏✨
-            </div>
+            <div class="main-flirt tilt-card" id="dynamic-greeting">
+                </div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
 
@@ -256,13 +282,13 @@
     <div id="world-boy" class="world">
         <canvas id="spidey-canvas"></canvas>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">YASER</div>
             <div class="para-quote para-layer center-x" data-speed="0.4">"Silence is my superpower."</div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">SPIDERMAN</div>
             <div class="para-quote para-layer center-x" data-speed="0.35">"With great power comes great responsibility."</div>
             <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="b-card scroll-item tilt-card">
@@ -272,7 +298,7 @@
             </a>
         </div>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y" data-speed="0.25">SHADOWS</div>
             <div class="para-quote para-layer center-x" data-speed="0.45">"We operate in the dark."</div>
             <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="b-card scroll-item tilt-card">
@@ -282,7 +308,7 @@
             </a>
         </div>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y" data-speed="0.1">WEB-SLINGER</div>
             <div class="para-quote para-layer center-x" data-speed="0.3">"My spider-sense is tingling."</div>
             <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="b-card scroll-item tilt-card">
@@ -292,7 +318,7 @@
             </a>
         </div>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">VENOM</div>
             <div class="para-quote para-layer center-x" data-speed="0.4">"Embrace the darkness."</div>
             <a href="https://api.whatsapp.com/send?phone=919356047251" class="b-card scroll-item tilt-card">
@@ -302,7 +328,7 @@
             </a>
         </div>
 
-        <div class="section">
+        <div class="section boy-fall">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
             <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
             <div class="spotify-wrap scroll-item" style="border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3);">
@@ -310,24 +336,83 @@
             </div>
         </div>
 
-        <div class="section">
-            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">THE END</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"MISSION ACCOMPLISHED."</div>
-            <div class="b-closing scroll-item tilt-card">
-                Bohot dekh liya. <br><br>
-                Ab tab close kar aur wapas apne raaste nikal. Yahan dosti nahi, sirf silence milti hai. 🌑
-            </div>
-     
+        <div class="section boy-fall">
+            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">WARNING</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"System Override Available."</div>
+            <button class="btn-blackout scroll-item" onclick="triggerBlackout()">INITIATE SILENCE</button>
         </div>
         
         <div style="height: 10vh;"></div>
     </div>
+    
+    <div id="offline-text">OFFLINE.</div>
 
     <script>
         let worldOpened = false;
 
+        // 1. SECRET NAME INJECTION (GIRLS)
+        function askGirlName() {
+            if(worldOpened) return;
+            const modal = document.getElementById('name-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                document.querySelector('.modal-box').style.transform = 'translateY(0)';
+            }, 50);
+        }
+
+        function submitGirlName() {
+            let nameInput = document.getElementById('girl-name-input').value.trim();
+            let girlName = nameInput !== "" ? nameInput : "Stranger";
+            
+            // Generate Real-Time Greeting
+            let currentHour = new Date().getHours();
+            let greetingStr = "";
+
+            if (currentHour >= 5 && currentHour < 12) {
+                greetingStr = `Subah subah yahan? Good morning ${girlName}. Let's see tum yahan kitni der rukti ho. 😏✨`;
+            } else if (currentHour >= 12 && currentHour < 17) {
+                greetingStr = `Din toh sabka boring hi hota hai... let's make this afternoon special, ${girlName}. 😉✨`;
+            } else if (currentHour >= 17 && currentHour < 21) {
+                greetingStr = `Shaam ka waqt aur meri profile... perfect addiction hai na, ${girlName}? 🔥`;
+            } else {
+                greetingStr = `Itni raat ko neend nahi aa rahi ${girlName}? Welcome to my midnight vibe. 🌙✨`;
+            }
+
+            document.getElementById('dynamic-greeting').innerText = greetingStr;
+
+            const modal = document.getElementById('name-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                startWorld('world-girl');
+            }, 500);
+        }
+
+        // 2. THE BLACKOUT PROTOCOL (BOYS ENDING)
+        function triggerBlackout() {
+            document.body.style.background = '#000'; // Force black
+            document.getElementById('spidey-canvas').style.display = 'none'; // Hide webs
+            
+            let fallingSections = document.querySelectorAll('.boy-fall');
+            
+            // Animate all sections crashing down
+            fallingSections.forEach((sec, index) => {
+                let delay = Math.random() * 0.5; // Random delay for chaos
+                sec.style.transition = `all 1.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) ${delay}s`;
+                sec.style.transform = 'translateY(150vh) rotate(20deg)';
+                sec.style.opacity = '0';
+            });
+
+            // Show OFFLINE text
+            setTimeout(() => {
+                document.getElementById('world-boy').style.display = 'none';
+                document.getElementById('offline-text').style.display = 'block';
+            }, 1500);
+        }
+
         window.startWorld = (worldId) => {
-            if(worldOpened) return; 
+            if(worldOpened && worldId === 'world-boy') return; 
             worldOpened = true; 
 
             const gate = document.getElementById('gate');
@@ -350,7 +435,6 @@
             }, 800);
         };
 
-        // PARALLAX EFFECT WITH PERFECT ALIGNMENT FIX
         const setupParallax = (worldId) => {
             const world = document.getElementById(worldId);
             const layers = world.querySelectorAll('.para-layer');
@@ -366,7 +450,6 @@
                         let xBase = isCenterX ? '-50%' : '0px';
                         let yBase = isCenterY ? '-50%' : '0px';
                         
-                        // Keeps it perfectly centered while adding the scroll parallax
                         layer.style.transform = `translate(${xBase}, calc(${yBase} + ${scrolled * speed}px))`;
                     });
                 });
@@ -407,7 +490,11 @@
                 });
                 
                 card.addEventListener('mouseleave', () => {
-                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+                    const rect = card.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    if(!touch) {
+                        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+                    }
                 });
                 
                 card.addEventListener('touchmove', (e) => {
