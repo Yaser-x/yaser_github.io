@@ -71,7 +71,7 @@
         .scroll-down-icon::after { content: '↓'; font-size: 1.5rem; }
         @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }
 
-        /* Perfect Aligned Parallax Texts (RESTORED) */
+        /* Perfect Aligned Parallax Texts */
         .para-bold {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; text-align: center; white-space: nowrap;
@@ -93,7 +93,7 @@
         @keyframes pulseTap { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
         /* =========================================
-           GIRL WORLD (Parallax + GIFs Fixed)
+           GIRL WORLD (Glassmorphism & Fixed GIFs)
         ========================================= */
         #world-girl { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); color: #fff; cursor: crosshair; }
         #world-girl .scroll-down-icon { color: #ff1493; text-shadow: 0 2px 5px rgba(255,20,147,0.5); }
@@ -115,8 +115,8 @@
         .g-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; color: #ff1493; }
         .g-flirt { font-size: 1.05rem; font-weight: 700; line-height: 1.5; color: #444; }
         
-        /* Mochi GIF Fixed Links */
-        .mochi-gif { width: 90px; height: 90px; border-radius: 15px; object-fit: cover; pointer-events: none; background: rgba(255,255,255,0.5); flex-shrink: 0; display: block; }
+        /* ORIGINAL WORKING GIFS - Fixed width/height */
+        .mochi-gif { width: 90px; height: 90px; border-radius: 15px; object-fit: cover; pointer-events: none; background: rgba(255,255,255,0.5); flex-shrink: 0; display: block; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
         .main-flirt {
             background: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 20px; text-align: center;
@@ -135,7 +135,7 @@
         @keyframes rippleAnim { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(10); opacity: 0; } }
 
         /* =========================================
-           BOY WORLD (Heavy Spiderman Web)
+           BOY WORLD (Heavy Spiderman Web + Bio)
         ========================================= */
         #world-boy { background: #050505; font-family: 'Montserrat', sans-serif; position: relative; }
         
@@ -152,7 +152,9 @@
         #world-boy .para-quote { color: #eee; text-transform: uppercase; letter-spacing: 3px; font-style: normal; }
 
         .yaser-name { font-size: clamp(4rem, 15vw, 8rem); font-weight: 900; color: #ff0000; letter-spacing: 10px; text-shadow: 4px 4px 0px #330000; z-index: 10; margin-bottom: 5px; }
-        .yaser-bio { font-size: clamp(0.7rem, 2.5vw, 1.2rem); font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; z-index: 10; border-top: 1px solid #550000; border-bottom: 1px solid #550000; padding: 10px 0; }
+        
+        /* THE PERFECT BIO */
+        .yaser-bio { font-size: clamp(0.7rem, 2.5vw, 1.2rem); font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; z-index: 10; border-top: 1px solid #550000; border-bottom: 1px solid #550000; padding: 10px 0; text-align: center; }
 
         .b-card {
             background: rgba(10, 10, 10, 0.85); border: 2px solid #550000; width: 100%; max-width: 450px;
@@ -173,10 +175,11 @@
             color: #ff0000; margin-top: -30px; pointer-events: none;
         }
 
+        /* SPOTIFY WRAPPERS */
         .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
         .spotify-wrap.visible { opacity: 1; transform: translateY(0); }
-        .spotify-girl { border: 2px solid #ff1493; box-shadow: 0 10px 40px rgba(255,20,147,0.3); }
-        .spotify-boy { border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3); }
+        .spotify-girl { border: 2px solid rgba(255,255,255,0.5); box-shadow: 0 15px 40px rgba(255,20,147,0.3); }
+        .spotify-boy { border: 2px solid #550000; box-shadow: 0 15px 40px rgba(255,0,0,0.3); }
 
     </style>
 </head>
@@ -224,7 +227,7 @@
                     <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
                     <div class="g-flirt" id="flirt-insta"></div>
                 </div>
-                <img src="https://c.tenor.com/aKFaZBrZHY0AAAAC/tenor.gif" class="mochi-gif" alt="blush">
+                <img src="https://media1.tenor.com/m/aKFaZBrZHY0AAAAC/peach-goma.gif" class="mochi-gif" alt="blush">
             </a>
         </div>
         
@@ -236,7 +239,7 @@
                     <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
                     <div class="g-flirt" id="flirt-snap"></div>
                 </div>
-                <img src="https://c.tenor.com/81Peb8z-82YAAAAC/tenor.gif" class="mochi-gif" alt="hearts">
+                <img src="https://media1.tenor.com/m/81Peb8z-82YAAAAC/peach-and-goma-peach-goma.gif" class="mochi-gif" alt="hearts">
             </a>
         </div>
         
@@ -248,7 +251,7 @@
                     <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
                     <div class="g-flirt" id="flirt-wp"></div>
                 </div>
-                <img src="https://c.tenor.com/O6L6K6O1XbwAAAAC/tenor.gif" class="mochi-gif" alt="sleepy">
+                <img src="https://media1.tenor.com/m/O6L6K6O1XbwAAAAC/peach-goma.gif" class="mochi-gif" alt="sleepy">
             </a>
         </div>
         
@@ -260,21 +263,21 @@
                     <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
                     <div class="g-flirt" id="flirt-secret"></div>
                 </div>
-                <img src="https://c.tenor.com/FwF4mK0Fh9oAAAAC/tenor.gif" class="mochi-gif" alt="peek">
+                <img src="https://media1.tenor.com/m/FwF4mK0Fh9oAAAAC/peach-and.gif" class="mochi-gif" alt="peek">
             </a>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">MELODY</div>
             <div class="spotify-wrap spotify-girl scroll-item">
-                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcWjR6iFpBFe" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXc846t546m0N?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">ALVIDA</div>
             <div class="g-card scroll-item" style="max-width: 400px; flex-direction: column; text-align: center;">
-                <img src="https://c.tenor.com/tHqgU7i8J8IAAAAC/tenor.gif" style="width:120px; height:120px; border-radius:15px; margin: 0 auto 15px auto;" alt="bye">
+                <img src="https://media1.tenor.com/m/tHqgU7i8J8IAAAAC/peach-and-goma-peach-goma.gif" style="width:120px; height:120px; border-radius:15px; margin: 0 auto 15px auto;" alt="bye">
                 <div class="g-flirt" id="flirt-close" style="font-size: 1.2rem; font-weight: 900;"></div>
                 <div style="margin-top: 15px; font-size: 0.9rem; color: #ff1493; letter-spacing: 2px;">THE END 🌸</div>
             </div>
@@ -334,7 +337,7 @@
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
             <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
             <div class="spotify-wrap spotify-boy scroll-item">
-                <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4wta20PHgwo?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
@@ -393,17 +396,16 @@
             var girlName = rawName !== "" ? rawName : "Haseen";
             var nameTag = '<span class="name-highlight">' + girlName + '</span>';
 
-            try {
-                var bgMusic = document.getElementById('bg-music');
-                if (bgMusic) {
-                    bgMusic.volume = 0.3;
-                    bgMusic.currentTime = 45;
-                    var playProm = bgMusic.play();
-                    if (playProm !== undefined) {
-                        playProm.catch(function(e) { console.log("Audio blocked", e); });
-                    }
+            // AUTOPLAY DIRECTLY TIED TO "ENTER" CLICK (Bypasses Browser Blocks)
+            var bgMusic = document.getElementById('bg-music');
+            if (bgMusic) {
+                bgMusic.currentTime = 45;
+                bgMusic.volume = 0.3;
+                var playProm = bgMusic.play();
+                if (playProm !== undefined) {
+                    playProm.catch(function(e) { console.log("Audio block prevented play", e); });
                 }
-            } catch (err) {}
+            }
 
             var isReturning = false;
             try {
@@ -464,7 +466,7 @@
             }
         }
 
-        // PERFECT PARALLAX LOGIC
+        // PARALLAX EFFECT
         function setupParallax(worldId) {
             var world = document.getElementById(worldId);
             if (!world) return;
@@ -485,6 +487,7 @@
             });
         }
 
+        // SCROLL REVEAL CARDS
         function initScrollObserver() {
             if (!window.IntersectionObserver) return;
             var cards = document.querySelectorAll('.scroll-item');
@@ -492,10 +495,11 @@
                 for (var i = 0; i < entries.length; i++) {
                     if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
                 }
-            }, { threshold: 0.1 }); // Reduced threshold so it shows up faster
+            }, { threshold: 0.1 }); 
             for (var j = 0; j < cards.length; j++) observer.observe(cards[j]);
         }
 
+        // MAGIC RIPPLES & EMOJIS (GIRLS ONLY)
         var emojis = ['🌸', '🦋', '💖', '🌺', '🌷', '🤍'];
         function spawnSparkle(e) {
             if (currentWorld !== 'world-girl') return;
@@ -526,7 +530,7 @@
             }, 600);
         }
 
-        // SPIDERMAN WEB - HEAVY DENSITY FIX
+        // HEAVY SPIDERMAN WEB (BOYS ONLY)
         function initBoyFeatures() {
             var boyWorld = document.getElementById('world-boy');
             var canvas = document.getElementById('spidey-canvas');
@@ -544,7 +548,7 @@
             boyWorld.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
             boyWorld.addEventListener('touchmove', function(e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
 
-            // INCREASED DOTS FROM 40 TO 150 FOR A HEAVY WEB
+            // 150 Particles for heavy density
             for(var i=0; i<150; i++) {
                 particles.push({ 
                     x: Math.random() * canvas.width, 
@@ -560,7 +564,6 @@
                     var p = particles[i];
                     p.x += p.vx; p.y += p.vy;
                     
-                    // Bounce off walls
                     if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                     
@@ -569,7 +572,7 @@
                     ctx.fillStyle = '#ff0000'; 
                     ctx.fill();
 
-                    // INCREASED DISTANCE TO MAKE BIGGER WEBS
+                    // Connection distance 180 for strong web
                     var dist = Math.sqrt(Math.pow(mouse.x - p.x, 2) + Math.pow(mouse.y - p.y, 2));
                     if(dist < 180) {
                         ctx.beginPath(); 
@@ -593,4 +596,4 @@
         };
     </script>
 </body>
-</html>
+</html> 
