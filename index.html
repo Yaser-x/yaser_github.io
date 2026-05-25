@@ -22,16 +22,12 @@
             border: none; outline: none; position: relative; overflow: hidden;
         }
         .door-girl { background: linear-gradient(135deg, #ff1493, #ff69b4); color: #fff; text-shadow: 2px 2px 10px #ff007f; text-transform: uppercase; }
-        .door-boy { background: linear-gradient(135deg, #1a0000, #050505); color: #ff0000; border-left: 2px solid #ff0000; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
+        .door-boy { background: linear-gradient(135deg, #1a0000, #050505); color: #880000; border-left: 2px solid #330000; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
         .door:hover { flex: 1.4; }
 
-        /* --- CUSTOM EXCLUSIVE EMOJI (GLOWING PINK HEART-LOTUS) --- */
         .custom-emoji {
-            width: 1.2em; height: 1.2em; margin-left: 10px;
-            display: inline-block; vertical-align: middle;
-            filter: drop-shadow(0 0 8px #ff1493);
-            animation: breathe 2s infinite alternate;
-            pointer-events: none; /* CRITICAL FIX: SVG won't steal clicks */
+            width: 1.2em; height: 1.2em; margin-left: 10px; display: inline-block; vertical-align: middle;
+            filter: drop-shadow(0 0 8px #ff1493); animation: breathe 2s infinite alternate; pointer-events: none;
         }
         @keyframes breathe { 0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff1493); } 100% { transform: scale(1.1); filter: drop-shadow(0 0 15px #ffb3d9); } }
 
@@ -42,27 +38,30 @@
             backdrop-filter: blur(10px); flex-direction: column; opacity: 0; transition: opacity 0.5s;
         }
         .modal-box {
-            background: linear-gradient(135deg, #ff69b4, #ff1493); padding: 30px; border-radius: 20px;
+            background: rgba(255, 105, 180, 0.2); padding: 30px; border-radius: 20px;
             text-align: center; color: white; box-shadow: 0 10px 40px rgba(255,20,147,0.5); width: 90%; max-width: 350px;
-            transform: translateY(50px); transition: transform 0.5s; border: 2px solid #fff;
+            transform: translateY(50px); transition: transform 0.5s; border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(20px);
         }
         .modal-box h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; text-transform: uppercase; }
         .modal-box input {
             width: 100%; padding: 15px; border-radius: 10px; border: none; font-family: 'Nunito', sans-serif;
-            font-size: 1.2rem; font-weight: 700; text-align: center; color: #d81b60; outline: none;
+            font-size: 1.2rem; font-weight: 700; text-align: center; color: #ff1493; outline: none; background: rgba(255,255,255,0.9);
         }
         .modal-box button {
-            margin-top: 20px; width: 100%; padding: 15px; background: #fff; color: #d81b60;
+            margin-top: 20px; width: 100%; padding: 15px; background: #fff; color: #ff1493;
             border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 900; cursor: pointer;
-            font-family: 'Nunito', sans-serif; text-transform: uppercase;
+            font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3); transition: 0.3s;
         }
+        .modal-box button:active { transform: scale(0.95); }
 
         /* --- WORLDS --- */
         .world {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; opacity: 0;
             overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; transition: opacity 1s ease-in-out;
         }
-        .section { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; padding: 40px 20px; overflow: hidden; transition: all 1s ease; }
+        .section { width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; padding: 40px 20px; overflow: hidden; }
 
         .scroll-down-icon {
             position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
@@ -73,7 +72,7 @@
         .scroll-down-icon::after { content: '↓'; font-size: 1.5rem; }
         @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }
 
-        /* --- PERFECT ALIGNED PARALLAX TEXTS --- */
+        /* Perfect Aligned Parallax Texts */
         .para-bold {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; text-align: center; white-space: nowrap;
@@ -87,121 +86,105 @@
         }
 
         .tap-badge {
-            float: right; font-size: 0.7rem; font-family: 'Nunito', sans-serif;
+            position: absolute; top: 15px; right: 15px; font-size: 0.6rem; font-family: 'Nunito', sans-serif;
             background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5);
-            padding: 4px 10px; border-radius: 20px; font-weight: 900; letter-spacing: 1px;
+            padding: 4px 8px; border-radius: 20px; font-weight: 900; letter-spacing: 1px;
             animation: pulseTap 1.5s infinite; color: inherit; text-transform: uppercase; pointer-events: none;
         }
-        @keyframes pulseTap { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
+        @keyframes pulseTap { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
         /* =========================================
-           GIRL WORLD
+           GIRL WORLD (Frosted Glass & Mochi)
         ========================================= */
-        #world-girl { background: linear-gradient(135deg, #ff85c1 0%, #ff1493 100%); color: #fff; cursor: crosshair; }
-        #world-girl .scroll-down-icon { color: #fff; text-shadow: 0 2px 5px #ff007f; }
-        #world-girl .para-bold { -webkit-text-stroke: 3px rgba(255, 255, 255, 0.4); font-family: 'Nunito', sans-serif; }
-        #world-girl .para-quote { color: #fff; text-shadow: 0 2px 10px rgba(255,20,147,1); }
+        #world-girl { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); color: #fff; cursor: crosshair; }
+        #world-girl .scroll-down-icon { color: #ff1493; text-shadow: 0 2px 5px rgba(255,20,147,0.5); }
+        #world-girl .para-bold { -webkit-text-stroke: 2px rgba(255, 20, 147, 0.15); font-family: 'Nunito', sans-serif; }
+        #world-girl .para-quote { color: #ff1493; text-shadow: none; font-weight: 900; }
 
-        .floating-magic { position: absolute; font-size: 3rem; opacity: 0.3; z-index: 0; animation: floatMagic 8s infinite alternate ease-in-out; pointer-events: none; }
-        .fm-1 { top: 15%; left: 10%; animation-delay: 0s; }
-        .fm-2 { top: 60%; right: 10%; animation-delay: -3s; }
-        .fm-3 { bottom: 20%; left: 20%; animation-delay: -5s; }
-        @keyframes floatMagic { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-40px) rotate(20deg); } }
-
-        .main-flirt {
-            background: rgba(255, 255, 255, 0.15); padding: 30px; border-radius: 20px; text-align: center;
-            font-size: 1.4rem; font-weight: 900; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.5); z-index: 10; line-height: 1.5;
-            transform-style: preserve-3d;
-        }
-        
-        .name-highlight { color: #fff; text-shadow: 0 0 12px #ffffff; font-style: italic; font-weight: 900; letter-spacing: 1px; }
+        .name-highlight { color: #ff1493; text-shadow: 0 0 8px rgba(255,20,147,0.5); font-style: italic; font-weight: 900; letter-spacing: 1px; }
 
         .g-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
-            border-radius: 25px; padding: 25px; width: 100%; max-width: 450px; z-index: 10;
-            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.3); border: 2px solid #fff; 
-            color: #d81b60; opacity: 0; transform: scale(0.9) translateY(50px); transition: opacity 0.8s, transform 0.8s;
-            transform-style: preserve-3d; display: block;
+            background: rgba(255, 255, 255, 0.25); border-radius: 25px; padding: 25px; width: 100%; max-width: 450px; z-index: 10;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255,255,255,0.6); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            color: #333; opacity: 0; transform: scale(0.9) translateY(50px); transition: opacity 0.8s, transform 0.8s;
+            display: flex; flex-direction: row; align-items: center; gap: 15px; text-decoration: none; position: relative;
         }
         .g-card.visible { opacity: 1; transform: scale(1) translateY(0); }
-        .g-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(255,255,255,0.5); }
+        .g-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(255,20,147,0.2); }
         
-        .g-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; text-transform: uppercase; transform: translateZ(30px); display: flex; align-items: center; gap: 10px; }
-        .g-title i { font-size: 1.8rem; color: #ff1493; }
-        .g-flirt { font-size: 1.1rem; color: #333; font-weight: 700; line-height: 1.6; transform: translateZ(20px); }
+        .g-content { flex: 1; display: flex; flex-direction: column; }
+        .g-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; color: #ff1493; }
+        .g-flirt { font-size: 1.05rem; font-weight: 700; line-height: 1.5; color: #444; }
+        
+        .mochi-gif { width: 90px; height: 90px; border-radius: 15px; object-fit: cover; pointer-events: none; background: rgba(255,255,255,0.5); }
 
-        .g-closing {
-            font-size: 1.3rem; font-weight: 900; text-align: center; color: #fff; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            border-top: 3px solid rgba(255,255,255,0.5); border-bottom: 3px solid rgba(255,255,255,0.5); padding: 25px;
-            z-index: 10; width: 90%; max-width: 500px; backdrop-filter: blur(5px);
-            opacity: 0; transform: translateY(50px); transition: 1s; line-height: 1.6;
+        .main-flirt {
+            background: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 20px; text-align: center;
+            font-size: 1.3rem; font-weight: 900; box-shadow: 0 15px 35px rgba(0,0,0,0.1); color: #333;
+            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.6); z-index: 10; line-height: 1.6;
         }
-        .g-closing.visible { opacity: 1; transform: translateY(0); }
 
+        /* Touch Ripples & Emojis */
         .sparkle { position: absolute; pointer-events: none; z-index: 999999; font-size: 24px; animation: pop 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
         @keyframes pop { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.2) rotate(45deg) translateY(-40px); opacity: 0; } }
+        
+        .ripple {
+            position: absolute; border-radius: 50%; border: 2px solid rgba(255, 20, 147, 0.5);
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 999998;
+            animation: rippleAnim 0.8s ease-out forwards;
+        }
+        @keyframes rippleAnim { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 150px; height: 150px; opacity: 0; } }
 
         /* =========================================
-           BOY WORLD
+           BOY WORLD (Monster / Indie Vibe)
         ========================================= */
-        #world-boy { background: #050505; font-family: 'Montserrat', sans-serif; }
-        #world-boy .scroll-down-icon { color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.8); }
-
-        #spidey-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        #world-boy { background: #050505; font-family: 'Montserrat', sans-serif; position: relative; }
         
-        .glitch-text { animation: glitch 3s infinite; }
-        @keyframes glitch { 
-            0%, 100% { text-shadow: 2px 2px 0px rgba(255,0,0,0.5), -2px -2px 0px rgba(0,0,255,0.5); }
-            50% { text-shadow: -2px 2px 0px rgba(255,0,0,0.5), 2px -2px 0px rgba(0,0,255,0.5); }
+        /* The Monster Tail-Light Glow */
+        .tail-light {
+            position: fixed; bottom: -20vh; left: 50%; transform: translateX(-50%);
+            width: 80vw; height: 50vh; background: radial-gradient(ellipse at bottom, rgba(136, 0, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none; z-index: 0; animation: pulseGlow 4s infinite alternate ease-in-out;
         }
+        @keyframes pulseGlow { 0% { opacity: 0.5; transform: translateX(-50%) scale(0.9); } 100% { opacity: 1; transform: translateX(-50%) scale(1.1); } }
 
-        #world-boy .para-bold { -webkit-text-stroke: 4px rgba(255, 0, 0, 0.3); font-family: 'Montserrat', sans-serif; }
-        #world-boy .para-quote { color: #eee; text-transform: uppercase; letter-spacing: 3px; font-style: normal; }
+        #world-boy .scroll-down-icon { color: #555; }
+        #world-boy .para-bold { -webkit-text-stroke: 2px rgba(255, 255, 255, 0.03); font-family: 'Montserrat', sans-serif; }
+        #world-boy .para-quote { color: #666; text-transform: uppercase; letter-spacing: 4px; font-style: normal; font-size: 0.9rem; }
+
+        .yaser-name { font-size: clamp(4rem, 15vw, 8rem); font-weight: 900; color: #fff; letter-spacing: 10px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 10; margin-bottom: 5px; }
+        .yaser-bio { font-size: clamp(0.7rem, 2.5vw, 1.2rem); font-weight: 700; color: #888; letter-spacing: 2px; text-transform: uppercase; z-index: 10; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 10px 0; }
 
         .b-card {
-            background: rgba(10, 10, 10, 0.85); border: 2px solid #550000; width: 100%; max-width: 450px;
-            padding: 30px; border-radius: 15px; color: #fff; z-index: 10;
-            box-shadow: 0 20px 50px rgba(255,0,0,0.15); backdrop-filter: blur(10px);
-            opacity: 0; transform: scale(0.9) translateY(50px); transition: opacity 0.8s, transform 0.8s;
-            transform-style: preserve-3d; display: block;
+            background: rgba(15, 15, 15, 0.9); border: 1px solid #222; width: 100%; max-width: 450px;
+            padding: 30px; border-radius: 10px; color: #aaa; z-index: 10;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); opacity: 0; transform: translateY(50px); transition: all 0.8s ease; display: block;
         }
-        .b-card.visible { opacity: 1; transform: scale(1) translateY(0); border-color: #ff0000; box-shadow: 0 20px 60px rgba(255,0,0,0.4); }
+        .b-card.visible { opacity: 1; transform: translateY(0); }
+        .b-card:hover { border-color: #444; color: #fff; }
         
-        .b-num { font-size: 5rem; color: #ff0000; font-weight: 900; line-height: 1; opacity: 0.9; text-shadow: 4px 4px 0px #330000; margin-bottom: 10px; transform: translateZ(40px); display: block; }
-        .b-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; transform: translateZ(20px); display: flex; align-items: center; gap: 12px; }
-        .b-title i { font-size: 2rem; color: #fff; }
+        .b-num { font-size: 3rem; color: #333; font-weight: 900; line-height: 1; display: block; margin-bottom: 15px; transition: 0.3s; }
+        .b-card:hover .b-num { color: #660000; }
+        .b-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 3px; display: flex; align-items: center; gap: 15px; font-weight: 800; }
+        .b-title i { font-size: 1.5rem; color: #555; transition: 0.3s; }
+        .b-card:hover .b-title i { color: #fff; }
 
         .tap-badge-boy {
-            float: right; font-size: 0.7rem; font-family: 'Montserrat', sans-serif;
-            background: rgba(255,0,0,0.2); border: 1px solid rgba(255,0,0,0.5);
-            padding: 4px 10px; border-radius: 5px; font-weight: 900; letter-spacing: 2px;
-            animation: pulseTapBoy 1.5s infinite; color: #ff0000; margin-top: -30px; pointer-events: none;
+            position: absolute; top: 20px; right: 20px; font-size: 0.6rem; font-family: 'Montserrat', sans-serif;
+            border: 1px solid #333; padding: 4px 8px; border-radius: 5px; font-weight: 900; letter-spacing: 2px;
+            color: #555; pointer-events: none; transition: 0.3s;
         }
-        @keyframes pulseTapBoy { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,0,0,0.4); } 70% { transform: scale(1.1); box-shadow: 0 0 10px 10px rgba(255,0,0,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,0,0,0); } }
+        .b-card:hover .tap-badge-boy { border-color: #660000; color: #660000; }
 
-        .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; }
+        .spotify-wrap { width: 100%; max-width: 450px; border-radius: 10px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; border: 1px solid #222; }
         .spotify-wrap.visible { opacity: 1; transform: translateY(0); }
 
-        /* THE BLACKOUT BUTTON */
-        .btn-blackout {
-            font-size: 1.5rem; font-weight: 900; text-align: center; color: #000; text-transform: uppercase;
-            letter-spacing: 4px; border: none; padding: 25px 40px; background: #ff0000;
-            z-index: 10; width: 90%; max-width: 500px; cursor: pointer; border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255,0,0,0.5); transition: 0.3s;
-        }
-        .btn-blackout:hover { background: #cc0000; box-shadow: 0 0 50px rgba(255,0,0,0.8); transform: scale(1.05); }
-
-        /* Blackout Offline Text (Hidden by default) */
-        #offline-text {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #ff0000; font-size: clamp(3rem, 10vw, 8rem); font-weight: 900; letter-spacing: 15px;
-            font-family: 'Montserrat', sans-serif; z-index: 999999; text-shadow: 0 0 20px #ff0000;
-            animation: glitch 2s infinite; text-transform: uppercase;
-        }
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" src="sanam.mp3" preload="auto"></audio>
 
     <div id="gate">
         <button class="door door-girl" onclick="askGirlName()">
@@ -217,452 +200,127 @@
                 </defs>
             </svg>
         </button>
-        <button class="door door-boy" onclick="startWorld('world-boy')">FOR HIM 🕷️</button>
+        <button class="door door-boy" onclick="startWorld('world-boy')">FOR HIM</button>
     </div>
 
     <div id="name-modal">
         <div class="modal-box">
             <h2>Kaun hai wo haseen?</h2>
-            <input type="text" id="girl-name-input" placeholder="Tumhara pyara sa naam..." autocomplete="off">
-            <button onclick="submitGirlName()">Mere Khayalon Mein Aao</button>
+            <input type="text" id="girl-name-input" placeholder="Naam likho..." autocomplete="off">
+            <button onclick="submitGirlName()">ENTER</button>
         </div>
     </div>
 
     <div id="world-girl" class="world">
-        <div class="floating-magic fm-1">🌸</div>
-        <div class="floating-magic fm-2">🦋</div>
-        <div class="floating-magic fm-3">✨</div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">NOOR</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"Haya aur nazaqat."</div>
-            <div class="main-flirt tilt-card" id="dynamic-greeting">
-                </div>
+            <div class="main-flirt" id="dynamic-greeting"></div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">NASHA</div>
-            <div class="para-quote para-layer center-x" data-speed="0.35">"Aankhon mein doobna tay hai."</div>
-            <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item tilt-card">
-                <span class="tap-badge">TAP 👆</span>
-                <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
-                <div class="g-flirt" id="flirt-insta">
-                    </div>
+            <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item">
+                <span class="tap-badge">TAP</span>
+                <div class="g-content">
+                    <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
+                    <div class="g-flirt" id="flirt-insta"></div>
+                </div>
+                <img src="https://media1.tenor.com/m/aKFaZBrZHY0AAAAC/peach-goma.gif" class="mochi-gif" alt="blush">
             </a>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.25">AADAT</div>
-            <div class="para-quote para-layer center-x" data-speed="0.45">"Ek nasha jo utarta nahi."</div>
-            <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item tilt-card">
-                <span class="tap-badge">TAP 👆</span>
-                <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
-                <div class="g-flirt" id="flirt-snap">
-                     </div>
+            <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item">
+                <span class="tap-badge">TAP</span>
+                <div class="g-content">
+                    <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
+                    <div class="g-flirt" id="flirt-snap"></div>
+                </div>
+                <img src="https://media1.tenor.com/m/81Peb8z-82YAAAAC/peach-and-goma-peach-goma.gif" class="mochi-gif" alt="hearts">
             </a>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.1">RAATEN</div>
-            <div class="para-quote para-layer center-x" data-speed="0.3">"Khamoshi ki aawaz."</div>
-            <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item tilt-card">
-                <span class="tap-badge">TAP 👆</span>
-                <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
-                <div class="g-flirt" id="flirt-wp">
-                     </div>
+            <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item">
+                <span class="tap-badge">TAP</span>
+                <div class="g-content">
+                    <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+                    <div class="g-flirt" id="flirt-wp"></div>
+                </div>
+                <img src="https://media1.tenor.com/m/O6L6K6O1XbwAAAAC/peach-goma.gif" class="mochi-gif" alt="sleepy">
             </a>
         </div>
 
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">RAAZ</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"Ankahe jazbaat."</div>
-            <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item tilt-card">
-                <span class="tap-badge">TAP 👆</span>
-                <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
-                <div class="g-flirt" id="flirt-secret">
-                     </div>
+            <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item">
+                <span class="tap-badge">TAP</span>
+                <div class="g-content">
+                    <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
+                    <div class="g-flirt" id="flirt-secret"></div>
+                </div>
+                <img src="https://media1.tenor.com/m/FwF4mK0Fh9oAAAAC/peach-and.gif" class="mochi-gif" alt="peek">
             </a>
         </div>
 
         <div class="section">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SUKOON</div>
-            <div class="para-quote para-layer center-x" data-speed="0.35">"Dhadkano ka shor."</div>
-            <div class="spotify-wrap scroll-item" style="box-shadow: 0 10px 40px rgba(255,20,147,0.5);">
-                <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-        </div>
-
-        <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">ALVIDA</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"Khwabon mein mulaqat."</div>
-            <div class="g-closing scroll-item" id="flirt-close">
-                 </div>
+            <div class="g-card scroll-item" style="max-width: 500px; display: flex; flex-direction: column; text-align: center;">
+                <img src="https://media1.tenor.com/m/tHqgU7i8J8IAAAAC/peach-and-goma-peach-goma.gif" style="width:120px; height:120px; border-radius:15px; margin: 0 auto 15px auto;" alt="bye">
+                <div class="g-flirt" id="flirt-close" style="font-size: 1.2rem;"></div>
+            </div>
         </div>
         
         <div style="height: 10vh;"></div>
     </div>
 
-
     <div id="world-boy" class="world">
-        <canvas id="spidey-canvas"></canvas>
+        <div class="tail-light"></div>
 
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">YASER</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"Silence is my superpower."</div>
-            <div class="scroll-down-icon">Scroll</div>
+        <div class="section" style="flex-direction: column;">
+            <div class="yaser-name">YASER</div>
+            <div class="yaser-bio">Science 🧬 &nbsp;|&nbsp; Code 💻 &nbsp;|&nbsp; Web 🌐 &nbsp;|&nbsp; Tech ⚙️</div>
+            <div class="scroll-down-icon" style="bottom: 10vh;">Scroll</div>
         </div>
 
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SPIDERMAN</div>
-            <div class="para-quote para-layer center-x" data-speed="0.35">"With great power comes great responsibility."</div>
-            <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="b-card scroll-item tilt-card">
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">BASE</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"We operate in the dark."</div>
+            <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="b-card scroll-item">
                 <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">01</span>
                 <span class="b-title"><i class="fab fa-instagram"></i> Main Profile</span>
             </a>
         </div>
 
-        <div class="section boy-fall">
+        <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.25">SHADOWS</div>
-            <div class="para-quote para-layer center-x" data-speed="0.45">"We operate in the dark."</div>
-            <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="b-card scroll-item tilt-card">
+            <div class="para-quote para-layer center-x" data-speed="0.45">"Silence is my superpower."</div>
+            <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="b-card scroll-item">
                 <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">02</span>
                 <span class="b-title"><i class="fab fa-instagram"></i> Shadow Identity</span>
             </a>
         </div>
 
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.1">WEB-SLINGER</div>
-            <div class="para-quote para-layer center-x" data-speed="0.3">"My spider-sense is tingling."</div>
-            <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="b-card scroll-item tilt-card">
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.1">STREAKS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.3">"No fake words. Just vibes."</div>
+            <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="b-card scroll-item">
                 <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">03</span>
                 <span class="b-title"><i class="fab fa-snapchat-ghost"></i> Snapchat Base</span>
             </a>
         </div>
 
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.2">VENOM</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"Embrace the darkness."</div>
-            <a href="https://api.whatsapp.com/send?phone=919356047251" class="b-card scroll-item tilt-card">
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">COMMS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Direct line."</div>
+            <a href="https://api.whatsapp.com/send?phone=919356047251" class="b-card scroll-item">
                 <span class="tap-badge-boy">TAP [↗]</span>
                 <span class="b-num">04</span>
-                <span class="b-title"><i class="fab fa-whatsapp"></i> WhatsApp Comms</span>
-            </a>
-        </div>
-
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
-            <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
-            <div class="spotify-wrap scroll-item" style="border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3);">
-                <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-        </div>
-
-        <div class="section boy-fall">
-            <div class="para-bold para-layer center-x center-y glitch-text" data-speed="0.2">WARNING</div>
-            <div class="para-quote para-layer center-x" data-speed="0.4">"System Override Available."</div>
-            <button class="btn-blackout scroll-item" onclick="triggerBlackout()">INITIATE SILENCE</button>
-        </div>
-        
-        <div style="height: 10vh;"></div>
-    </div>
-    
-    <div id="offline-text">OFFLINE.</div>
-
-    <script>
-        var activeWorld = null;
-
-        function askGirlName() {
-            if(activeWorld !== null) return;
-            var modal = document.getElementById('name-modal');
-            modal.style.display = 'flex';
-            setTimeout(function() {
-                modal.style.opacity = '1';
-                document.querySelector('.modal-box').style.transform = 'translateY(0)';
-            }, 50);
-        }
-
-        function submitGirlName() {
-            var nameInput = document.getElementById('girl-name-input').value.trim();
-            var girlName = nameInput !== "" ? nameInput : "Haseen";
-            var nameTag = '<span class="name-highlight">' + girlName + '</span>';
-            
-            // SAFE LOCAL STORAGE CHECK (Fixes File Protocol Crashes)
-            var isReturning = false;
-            try {
-                isReturning = localStorage.getItem('yaser_girl_visited') === 'true';
-                localStorage.setItem('yaser_girl_visited', 'true');
-            } catch (e) {
-                console.log("Storage blocked, continuing normally");
-            }
-
-            var currentHour = new Date().getHours();
-            var greetingStr = "";
-            var closingStr = "";
-
-            // 1. Time-based & Visit-based Greeting (Deep & Poetic)
-            if (!isReturning) { // FIRST TIME
-                if (currentHour >= 5 && currentHour < 12) {
-                    greetingStr = `Suraj ki pehli kiran se pehle, mere khayalon mein aane ki aadat kab se ho gayi, ${nameTag}? Subah aur bhi haseen lagne lagi hai ab. ✨`;
-                    closingStr = `Itni jaldi alvida? Khair, rokunga nahi. Par ek baat bata doon, ${nameTag}... din bhar khayalon mein ab sirf mera hi zikr hoga.<br><span style="font-size: 0.7em; opacity: 0.8; margin-top: 15px; display: block; font-weight: normal;">Have a beautiful day. 🌸</span>`;
-                } else if (currentHour >= 12 && currentHour < 17) {
-                    greetingStr = `Dopahar ki is shant khamoshi mein, tumhara yun chupke se aana... ${nameTag}, in nazaqaton ka main kya karun? Aao, theher jao kuch der. 🤎`;
-                    closingStr = `Waqt abhi dhalne mein baaki hai, ${nameTag}. Jaa rahi ho, par janti ho ki ye sirf shuruaat hai. Shaam hone do, dil wapas yahin aayega.<br><span style="font-size: 0.7em; opacity: 0.8; margin-top: 15px; display: block; font-weight: normal;">Take care. ✨</span>`;
-                } else if (currentHour >= 17 && currentHour < 21) {
-                    greetingStr = `Shaam dhali aur tumhari yaad chali aayi. Par aaj toh tum khud aayi ho, ${nameTag}. Waise, is nashiile waqt mein thoda sharmaana lazmi hai. 🌆`;
-                    closingStr = `Shaam ke is haseen waqt mein mujhe chhod kar jana aasan toh nahi hoga, ${nameTag}. Khair, neend ke aagosh mein bhi main intezaar karunga.<br><span style="font-size: 0.7em; opacity: 0.8; margin-top: 15px; display: block; font-weight: normal;">Haseen khwab dekho. 🌙</span>`;
-                } else {
-                    greetingStr = `In raaton mein waise bhi neend kahan, par tumhara yun theherna meri bechaini aur badha raha hai, ${nameTag}. Kuch raaz ki baatein karein? 🌙`;
-                    closingStr = `Jaa rahi ho? Shauk se jao. Par yaad rakhna, ${nameTag}... neend tumhari hogi, par khwabon par qabza mera hi rahega. 🖤<br><span style="font-size: 0.7em; opacity: 0.8; margin-top: 15px; display: block; font-weight: normal;">Meethe khwab, sirf mere. 🌙✨</span>`;
-                }
-            } else { // SECOND TIME (HEAVY & CONFIDENT)
-                if (currentHour >= 5 && currentHour < 12) {
-                    greetingStr = `Wapas aana toh tay tha, par itni jaldi? ${nameTag}, lagta hai in khayalon ki qaid tumhe bhi pasand aane lagi hai. Achi aadat hai. 🔥☕`;
-                } else if (currentHour >= 12 && currentHour < 17) {
-                    greetingStr = `Phir se wahi kashish? ${nameTag}, tum in baaton se jitna bhagogi, ye utna hi tumhare aur qareeb aayengi. Nazrein jhukao mat, paas aao. 🖤`;
-                } else if (currentHour >= 17 && currentHour < 21) {
-                    greetingStr = `Is shaam ka nasha tumhari is wapsi se aur gehra ho gaya hai. Ab bacha hi kya hai chhupane ko, ${nameTag}? Ek dusre ko padh lete hain. 🍷`;
-                } else {
-                    greetingStr = `Mujhe pata tha, is raat ki gehrai tumhe yahin kheench layegi. Ab in saanson ki aanch mehsoos karo, ${nameTag}... kyunki ab wapas jana namumkin hai. 🌙✨`;
-                }
-                
-                closingStr = `Baar baar yahan aakar tumne faisla suna diya hai, ${nameTag}. Ab in khayalon se bach kar jaogi kahan? <br><span style="font-size: 0.7em; opacity: 0.8; margin-top: 15px; display: block; font-weight: normal;">Main yahin hoon. Hamesha tumhare zehen mein. 🖤</span>`;
-            }
-
-            document.getElementById('dynamic-greeting').innerHTML = greetingStr;
-            document.getElementById('flirt-close').innerHTML = closingStr;
-
-            // 2. Deep Poetic Card Flirts with Name
-            document.getElementById('flirt-insta').innerHTML = `Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style="color:#d81b60;">${girlName}</b>. Ek baar nazar utha kar toh dekho... is shiddat se ishq ho jayega. 🖤`;
-            
-            document.getElementById('flirt-snap').innerHTML = `Bina kisi filter ke bhi tum is qadar haseen ho, <b style="color:#d81b60;">${girlName}</b>, ki baaqi sab berang lagta hai. Tumhari us choti si muskurahat ki latt si lagti jaa rahi hai mujhe. ✨`;
-            
-            document.getElementById('flirt-wp').innerHTML = `Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style="color:#d81b60;">${girlName}</b>. Kabhi fursat mein aazma lena. 🌙`;
-            
-            document.getElementById('flirt-secret').innerHTML = `Tumhari in gahri, kaali aankhon mein jo ankahe raaz chhupe hain na, <b style="color:#d81b60;">${girlName}</b>... mera dil karta hai bas unme doob jaun. Yahan sirf main hoon, tum ho, aur ye madhoshi. 🤎`;
-
-            // Transition logic
-            var modal = document.getElementById('name-modal');
-            modal.style.opacity = '0';
-            setTimeout(function() {
-                modal.style.display = 'none';
-                startWorld('world-girl');
-            }, 500);
-        }
-
-        function triggerBlackout() {
-            document.body.style.background = '#000';
-            document.getElementById('spidey-canvas').style.display = 'none';
-            
-            var fallingSections = document.querySelectorAll('.boy-fall');
-            
-            fallingSections.forEach(function(sec, index) {
-                var delay = Math.random() * 0.5;
-                sec.style.transition = 'all 1.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) ' + delay + 's';
-                sec.style.transform = 'translateY(150vh) rotate(20deg)';
-                sec.style.opacity = '0';
-            });
-
-            setTimeout(function() {
-                document.getElementById('world-boy').style.display = 'none';
-                document.getElementById('offline-text').style.display = 'block';
-            }, 1500);
-        }
-
-        window.startWorld = function(worldId) {
-            if(activeWorld !== null) return; 
-            activeWorld = worldId; 
-
-            var gate = document.getElementById('gate');
-            var world = document.getElementById(worldId);
-            
-            gate.style.transform = 'scale(1.2)';
-            gate.style.opacity = '0';
-            
-            setTimeout(function() {
-                gate.style.display = 'none';
-                world.style.display = 'block';
-                
-                setTimeout(function() {
-                    world.style.opacity = '1';
-                    initScrollObserver();
-                    initInteractiveTilt(); 
-                    if(worldId === 'world-boy') initBoyFeatures();
-                }, 50);
-            }, 800);
-        };
-
-        function setupParallax(worldId) {
-            var world = document.getElementById(worldId);
-            if(!world) return;
-            var layers = world.querySelectorAll('.para-layer');
-            
-            world.addEventListener('scroll', function() {
-                requestAnimationFrame(function() {
-                    var scrolled = world.scrollTop;
-                    layers.forEach(function(layer) {
-                        var speed = layer.getAttribute('data-speed');
-                        var isCenterX = layer.classList.contains('center-x');
-                        var isCenterY = layer.classList.contains('center-y');
-                        
-                        var xBase = isCenterX ? '-50%' : '0px';
-                        var yBase = isCenterY ? '-50%' : '0px';
-                        
-                        layer.style.transform = 'translate(' + xBase + ', calc(' + yBase + ' + ' + (scrolled * speed) + 'px))';
-                    });
-                });
-            });
-        }
-
-        function initScrollObserver() {
-            var cards = document.querySelectorAll('.scroll-item');
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    } else {
-                        entry.target.classList.remove('visible'); 
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            cards.forEach(function(card) { observer.observe(card) });
-        }
-
-        function initInteractiveTilt() {
-            var cards = document.querySelectorAll('.tilt-card');
-            
-            cards.forEach(function(card) {
-                card.addEventListener('mousemove', function(e) {
-                    var rect = card.getBoundingClientRect();
-                    var x = e.clientX - rect.left; 
-                    var y = e.clientY - rect.top;  
-                    
-                    var centerX = rect.width / 2;
-                    var centerY = rect.height / 2;
-                    
-                    var rotateX = ((y - centerY) / centerY) * -15; 
-                    var rotateY = ((x - centerX) / centerX) * 15;
-                    
-                    card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.05)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-                });
-                
-                card.addEventListener('touchmove', function(e) {
-                    var rect = card.getBoundingClientRect();
-                    var touch = e.touches[0];
-                    if(!touch) return;
-                    var x = touch.clientX - rect.left;
-                    var y = touch.clientY - rect.top;
-                    
-                    var centerX = rect.width / 2;
-                    var centerY = rect.height / 2;
-                    
-                    var rotateX = ((y - centerY) / centerY) * -15;
-                    var rotateY = ((x - centerX) / centerX) * 15;
-                    
-                    card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.05)';
-                }, {passive: true});
-                
-                card.addEventListener('touchend', function() {
-                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-                });
-            });
-        }
-
-        // GLOBAL TOUCH SPARKLES (WORKS EVERYWHERE IN GIRL WORLD)
-        var emojis = ['🌸', '🦋', '💖', '🌺', '🌷', '🤍'];
-        var lastSparkleTime = 0;
-
-        function spawnSparkle(e) {
-            if(activeWorld !== 'world-girl') return; 
-            
-            var now = Date.now();
-            if(now - lastSparkleTime < 60) return; 
-            lastSparkleTime = now;
-
-            var x = e.touches ? e.touches[0].clientX : e.clientX;
-            var y = e.touches ? e.touches[0].clientY : e.clientY;
-
-            var sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            
-            var girlWorld = document.getElementById('world-girl');
-            var scrollY = girlWorld.scrollTop;
-            sparkle.style.left = (x - 12) + 'px';
-            sparkle.style.top = (y + scrollY - 12) + 'px';
-            
-            girlWorld.appendChild(sparkle);
-
-            setTimeout(function() { sparkle.remove() }, 1000);
-        }
-
-        // INIT DOM STUFF SAFELY
-        window.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('touchmove', spawnSparkle, {passive: true});
-            window.addEventListener('mousemove', spawnSparkle);
-
-            setupParallax('world-girl');
-            setupParallax('world-boy');
-        });
-
-        function initBoyFeatures() {
-            var boyWorld = document.getElementById('world-boy');
-            var canvas = document.getElementById('spidey-canvas');
-            var ctx = canvas.getContext('2d');
-            
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            var particles = [];
-            var mouse = { x: null, y: null };
-
-            boyWorld.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
-            boyWorld.addEventListener('touchmove', function(e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
-
-            for(var i=0; i<60; i++) {
-                particles.push({ 
-                    x: Math.random() * canvas.width, 
-                    y: Math.random() * canvas.height, 
-                    vx: (Math.random() - 0.5)*1.5, 
-                    vy: (Math.random() - 0.5)*1.5 
-                });
-            }
-
-            function animateWeb() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(function(p) {
-                    p.x += p.vx; p.y += p.vy;
-                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                    
-                    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fillStyle = '#ff0000'; ctx.fill();
-
-                    if(mouse.x !== null) {
-                        var dist = Math.sqrt(Math.pow(mouse.x - p.x, 2) + Math.pow(mouse.y - p.y, 2));
-                        if(dist < 150) {
-                            ctx.beginPath(); 
-                            ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - dist/150) + ')'; 
-                            ctx.lineWidth = 1.5;
-                            ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-                        }
-                    }
-                });
-                requestAnimationFrame(animateWeb);
-            }
-            animateWeb();
-        }
-    </script>
-</body>
-</html>
+                <span class="b-title"><i class="fab fa-whatsapp
