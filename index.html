@@ -71,7 +71,7 @@
         .scroll-down-icon::after { content: '↓'; font-size: 1.5rem; }
         @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }
 
-        /* Perfect Aligned Parallax Texts */
+        /* Perfect Aligned Parallax Texts (RESTORED) */
         .para-bold {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 100%; text-align: center; white-space: nowrap;
@@ -93,7 +93,7 @@
         @keyframes pulseTap { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
 
         /* =========================================
-           GIRL WORLD
+           GIRL WORLD (Parallax + GIFs Fixed)
         ========================================= */
         #world-girl { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); color: #fff; cursor: crosshair; }
         #world-girl .scroll-down-icon { color: #ff1493; text-shadow: 0 2px 5px rgba(255,20,147,0.5); }
@@ -115,15 +115,15 @@
         .g-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; color: #ff1493; }
         .g-flirt { font-size: 1.05rem; font-weight: 700; line-height: 1.5; color: #444; }
         
-        .mochi-gif { width: 80px; height: 80px; border-radius: 15px; object-fit: cover; pointer-events: none; background: rgba(255,255,255,0.5); flex-shrink: 0; }
+        /* Mochi GIF Fixed Links */
+        .mochi-gif { width: 90px; height: 90px; border-radius: 15px; object-fit: cover; pointer-events: none; background: rgba(255,255,255,0.5); flex-shrink: 0; display: block; }
 
         .main-flirt {
             background: rgba(255, 255, 255, 0.3); padding: 30px; border-radius: 20px; text-align: center;
             font-size: 1.3rem; font-weight: 900; box-shadow: 0 15px 35px rgba(0,0,0,0.1); color: #333;
-            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.6); z-index: 10; line-height: 1.6;
+            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.6); z-index: 10; line-height: 1.6; width: 90%; max-width: 450px;
         }
 
-        /* HARDWARE ACCELERATED RIPPLES (NO LAG) */
         .sparkle { position: absolute; pointer-events: none !important; z-index: 999999; font-size: 24px; animation: pop 1s ease-out forwards; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
         @keyframes pop { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.2) rotate(45deg) translateY(-40px); opacity: 0; } }
         
@@ -135,7 +135,7 @@
         @keyframes rippleAnim { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(10); opacity: 0; } }
 
         /* =========================================
-           BOY WORLD (Spider-Man + Glitch + Bio)
+           BOY WORLD (Heavy Spiderman Web)
         ========================================= */
         #world-boy { background: #050505; font-family: 'Montserrat', sans-serif; position: relative; }
         
@@ -173,8 +173,10 @@
             color: #ff0000; margin-top: -30px; pointer-events: none;
         }
 
-        .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3); }
+        .spotify-wrap { width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(50px); transition: 1s; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
         .spotify-wrap.visible { opacity: 1; transform: translateY(0); }
+        .spotify-girl { border: 2px solid #ff1493; box-shadow: 0 10px 40px rgba(255,20,147,0.3); }
+        .spotify-boy { border: 2px solid #550000; box-shadow: 0 10px 40px rgba(255,0,0,0.3); }
 
     </style>
 </head>
@@ -213,6 +215,7 @@
             <div class="main-flirt" id="dynamic-greeting"></div>
             <div class="scroll-down-icon">Scroll</div>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">NASHA</div>
             <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item">
@@ -221,9 +224,10 @@
                     <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
                     <div class="g-flirt" id="flirt-insta"></div>
                 </div>
-                <img src="https://media1.tenor.com/m/aKFaZBrZHY0AAAAC/peach-goma.gif" class="mochi-gif" alt="blush">
+                <img src="https://c.tenor.com/aKFaZBrZHY0AAAAC/tenor.gif" class="mochi-gif" alt="blush">
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.25">AADAT</div>
             <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item">
@@ -232,9 +236,10 @@
                     <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
                     <div class="g-flirt" id="flirt-snap"></div>
                 </div>
-                <img src="https://media1.tenor.com/m/81Peb8z-82YAAAAC/peach-and-goma-peach-goma.gif" class="mochi-gif" alt="hearts">
+                <img src="https://c.tenor.com/81Peb8z-82YAAAAC/tenor.gif" class="mochi-gif" alt="hearts">
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.1">RAATEN</div>
             <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item">
@@ -243,9 +248,10 @@
                     <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
                     <div class="g-flirt" id="flirt-wp"></div>
                 </div>
-                <img src="https://media1.tenor.com/m/O6L6K6O1XbwAAAAC/peach-goma.gif" class="mochi-gif" alt="sleepy">
+                <img src="https://c.tenor.com/O6L6K6O1XbwAAAAC/tenor.gif" class="mochi-gif" alt="sleepy">
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">RAAZ</div>
             <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item">
@@ -254,26 +260,36 @@
                     <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
                     <div class="g-flirt" id="flirt-secret"></div>
                 </div>
-                <img src="https://media1.tenor.com/m/FwF4mK0Fh9oAAAAC/peach-and.gif" class="mochi-gif" alt="peek">
+                <img src="https://c.tenor.com/FwF4mK0Fh9oAAAAC/tenor.gif" class="mochi-gif" alt="peek">
             </a>
         </div>
+
         <div class="section">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.2">ALVIDA</div>
-            <div class="g-card scroll-item" style="max-width: 500px; flex-direction: column; text-align: center;">
-                <img src="https://media1.tenor.com/m/tHqgU7i8J8IAAAAC/peach-and-goma-peach-goma.gif" style="width:100px; height:100px; border-radius:15px; margin: 0 auto 10px auto;" alt="bye">
-                <div class="g-flirt" id="flirt-close" style="font-size: 1.2rem;"></div>
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">MELODY</div>
+            <div class="spotify-wrap spotify-girl scroll-item">
+                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcWjR6iFpBFe" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
-        <div style="height: 10vh;"></div>
+
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">ALVIDA</div>
+            <div class="g-card scroll-item" style="max-width: 400px; flex-direction: column; text-align: center;">
+                <img src="https://c.tenor.com/tHqgU7i8J8IAAAAC/tenor.gif" style="width:120px; height:120px; border-radius:15px; margin: 0 auto 15px auto;" alt="bye">
+                <div class="g-flirt" id="flirt-close" style="font-size: 1.2rem; font-weight: 900;"></div>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #ff1493; letter-spacing: 2px;">THE END 🌸</div>
+            </div>
+        </div>
+        <div style="height: 5vh;"></div>
     </div>
 
     <div id="world-boy" class="world">
         <canvas id="spidey-canvas"></canvas>
         <div class="section" style="flex-direction: column;">
             <div class="yaser-name glitch-text">YASER</div>
-            <div class="yaser-bio">Science 🧬 &nbsp;|&nbsp; Code 💻 &nbsp;|&nbsp; Web 🌐 &nbsp;|&nbsp; Tech ⚙️</div>
+            <div class="yaser-bio">Science 🧬  |  Code 💻  |  Web 🌐  |  Tech ⚙️</div>
             <div class="scroll-down-icon" style="bottom: 10vh;">Scroll</div>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">SPIDERMAN</div>
             <div class="para-quote para-layer center-x" data-speed="0.35">"With great power comes great responsibility."</div>
@@ -283,6 +299,7 @@
                 <span class="b-title"><i class="fab fa-instagram"></i> Main Profile</span>
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.25">SHADOWS</div>
             <div class="para-quote para-layer center-x" data-speed="0.45">"We operate in the dark."</div>
@@ -292,6 +309,7 @@
                 <span class="b-title"><i class="fab fa-instagram"></i> Shadow Identity</span>
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.1">WEB-SLINGER</div>
             <div class="para-quote para-layer center-x" data-speed="0.3">"My spider-sense is tingling."</div>
@@ -301,6 +319,7 @@
                 <span class="b-title"><i class="fab fa-snapchat-ghost"></i> Snapchat Base</span>
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.2">VENOM</div>
             <div class="para-quote para-layer center-x" data-speed="0.4">"Embrace the darkness."</div>
@@ -310,14 +329,23 @@
                 <span class="b-title"><i class="fab fa-whatsapp"></i> WhatsApp Comms</span>
             </a>
         </div>
+        
         <div class="section">
             <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
             <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
-            <div class="spotify-wrap scroll-item">
+            <div class="spotify-wrap spotify-boy scroll-item">
                 <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
-        <div style="height: 10vh;"></div>
+
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">SYSTEM</div>
+            <div class="b-card scroll-item" style="text-align: center; border-color: #330000;">
+                <span class="b-num" style="font-size: 3rem;">END</span>
+                <div class="yaser-bio" style="border:none; margin-top: 10px; color: #ff0000;">[ CONNECTION TERMINATED ]</div>
+            </div>
+        </div>
+        <div style="height: 5vh;"></div>
     </div>
 
     <script>
@@ -365,7 +393,6 @@
             var girlName = rawName !== "" ? rawName : "Haseen";
             var nameTag = '<span class="name-highlight">' + girlName + '</span>';
 
-            // Safe Audio Trigger (Wont freeze if it fails)
             try {
                 var bgMusic = document.getElementById('bg-music');
                 if (bgMusic) {
@@ -376,9 +403,8 @@
                         playProm.catch(function(e) { console.log("Audio blocked", e); });
                     }
                 }
-            } catch (err) { console.log("Music Error Skipped"); }
+            } catch (err) {}
 
-            // Safe Cookie Check
             var isReturning = false;
             try {
                 if (window.localStorage) {
@@ -438,6 +464,7 @@
             }
         }
 
+        // PERFECT PARALLAX LOGIC
         function setupParallax(worldId) {
             var world = document.getElementById(worldId);
             if (!world) return;
@@ -465,7 +492,7 @@
                 for (var i = 0; i < entries.length; i++) {
                     if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
                 }
-            }, { threshold: 0.2 });
+            }, { threshold: 0.1 }); // Reduced threshold so it shows up faster
             for (var j = 0; j < cards.length; j++) observer.observe(cards[j]);
         }
 
@@ -499,6 +526,7 @@
             }, 600);
         }
 
+        // SPIDERMAN WEB - HEAVY DENSITY FIX
         function initBoyFeatures() {
             var boyWorld = document.getElementById('world-boy');
             var canvas = document.getElementById('spidey-canvas');
@@ -516,8 +544,14 @@
             boyWorld.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
             boyWorld.addEventListener('touchmove', function(e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
 
-            for(var i=0; i<40; i++) {
-                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5)*1.2, vy: (Math.random() - 0.5)*1.2 });
+            // INCREASED DOTS FROM 40 TO 150 FOR A HEAVY WEB
+            for(var i=0; i<150; i++) {
+                particles.push({ 
+                    x: Math.random() * canvas.width, 
+                    y: Math.random() * canvas.height, 
+                    vx: (Math.random() - 0.5)*1.5, 
+                    vy: (Math.random() - 0.5)*1.5 
+                });
             }
 
             function animateWeb() {
@@ -525,19 +559,22 @@
                 for(var i=0; i<particles.length; i++) {
                     var p = particles[i];
                     p.x += p.vx; p.y += p.vy;
+                    
+                    // Bounce off walls
                     if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                     
                     ctx.beginPath(); 
-                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); 
+                    ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2); 
                     ctx.fillStyle = '#ff0000'; 
                     ctx.fill();
 
+                    // INCREASED DISTANCE TO MAKE BIGGER WEBS
                     var dist = Math.sqrt(Math.pow(mouse.x - p.x, 2) + Math.pow(mouse.y - p.y, 2));
-                    if(dist < 120) {
+                    if(dist < 180) {
                         ctx.beginPath(); 
-                        ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - dist/120) + ')'; 
-                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - dist/180) + ')'; 
+                        ctx.lineWidth = 1.2;
                         ctx.moveTo(p.x, p.y); 
                         ctx.lineTo(mouse.x, mouse.y); 
                         ctx.stroke();
