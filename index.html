@@ -124,12 +124,12 @@
         }
 
         /* HARDWARE ACCELERATED RIPPLES (NO LAG) */
-        .sparkle { position: absolute; pointer-events: none; z-index: 999999; font-size: 24px; animation: pop 1s ease-out forwards; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+        .sparkle { position: absolute; pointer-events: none !important; z-index: 999999; font-size: 24px; animation: pop 1s ease-out forwards; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
         @keyframes pop { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(1.2) rotate(45deg) translateY(-40px); opacity: 0; } }
         
         .ripple {
-            position: absolute; border-radius: 50%; border: 2px solid rgba(255, 20, 147, 0.6);
-            width: 20px; height: 20px; transform: translate(-50%, -50%) scale(1); pointer-events: none; z-index: 999998;
+            position: absolute; border-radius: 50%; border: 2px solid rgba(255, 20, 147, 0.6); pointer-events: none !important;
+            width: 20px; height: 20px; transform: translate(-50%, -50%) scale(1); z-index: 999998;
             animation: rippleAnim 0.6s ease-out forwards;
         }
         @keyframes rippleAnim { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(10); opacity: 0; } }
@@ -183,7 +183,7 @@
     <audio id="bg-music" src="sanam.mp3" preload="auto"></audio>
 
     <div id="gate">
-        <button class="door door-girl" onclick="window.askGirlName()">
+        <button class="door door-girl" onclick="openGirlModal()">
             FOR HER 
             <svg class="custom-emoji" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 85 C 15 55, 5 25, 25 15 C 40 8, 50 25, 50 25 C 50 25, 60 8, 75 15 C 95 25, 85 55, 50 85 Z" fill="url(#pinkGradient)"/>
@@ -196,14 +196,14 @@
                 </defs>
             </svg>
         </button>
-        <button class="door door-boy" onclick="window.startWorld('world-boy')">FOR HIM 🕷️</button>
+        <button class="door door-boy" onclick="triggerWorld('world-boy')">FOR HIM 🕷️</button>
     </div>
 
     <div id="name-modal">
         <div class="modal-box">
             <h2>Kaun hai wo haseen?</h2>
             <input type="text" id="girl-name-input" placeholder="Naam likho..." autocomplete="off">
-            <button onclick="window.submitGirlName()">ENTER</button>
+            <button onclick="processGirlName()">ENTER</button>
         </div>
     </div>
 
@@ -271,7 +271,7 @@
         <canvas id="spidey-canvas"></canvas>
         <div class="section" style="flex-direction: column;">
             <div class="yaser-name glitch-text">YASER</div>
-            <div class="yaser-bio">Science 🧬  |  Code 💻  |  Web 🌐  |  Tech ⚙️</div>
+            <div class="yaser-bio">Science 🧬 &nbsp;|&nbsp; Code 💻 &nbsp;|&nbsp; Web 🌐 &nbsp;|&nbsp; Tech ⚙️</div>
             <div class="scroll-down-icon" style="bottom: 10vh;">Scroll</div>
         </div>
         <div class="section">
@@ -311,237 +311,4 @@
             </a>
         </div>
         <div class="section">
-            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
-            <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
-            <div class="spotify-wrap scroll-item">
-                <iframe src="https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-        </div>
-        <div style="height: 10vh;"></div>
-    </div>
-
-    <script>
-        window.activeWorld = null;
-
-        window.askGirlName = function() {
-            try {
-                if(window.activeWorld !== null) return;
-                var modal = document.getElementById('name-modal');
-                if(!modal) return;
-                modal.style.display = 'flex';
-                setTimeout(function() {
-                    modal.style.opacity = '1';
-                    var mBox = document.querySelector('.modal-box');
-                    if(mBox) mBox.style.transform = 'translateY(0)';
-                }, 50);
-            } catch(e) { console.error("Error in askGirlName:", e); }
-        };
-
-        window.submitGirlName = function() {
-            try {
-                var nameInput = document.getElementById('girl-name-input');
-                var girlName = (nameInput && nameInput.value.trim() !== "") ? nameInput.value.trim() : "Haseen";
-                var nameTag = '<span class="name-highlight">' + girlName + '</span>';
-                
-                var bgMusic = document.getElementById('bg-music');
-                if(bgMusic) {
-                    bgMusic.volume = 0.3; 
-                    bgMusic.currentTime = 45; 
-                    var playPromise = bgMusic.play();
-                    if(playPromise !== undefined) {
-                        playPromise.catch(function(e) { console.log("Audio play blocked by browser."); });
-                    }
-                }
-
-                var isReturning = false;
-                try {
-                    isReturning = localStorage.getItem('yaser_girl_visited') === 'true';
-                    localStorage.setItem('yaser_girl_visited', 'true');
-                } catch (e) {}
-
-                var currentHour = new Date().getHours();
-                var greetingStr = "";
-                var closingStr = "";
-
-                if (!isReturning) { 
-                    if (currentHour >= 5 && currentHour < 12) {
-                        greetingStr = `Suraj ki pehli kiran se pehle, mere khayalon mein aane ki aadat kab se ho gayi, ${nameTag}? Subah aur bhi haseen lagne lagi hai ab. ✨`;
-                        closingStr = `Itni jaldi alvida? Khair, rokunga nahi. Par ek baat bata doon, ${nameTag}... din bhar khayalon mein ab sirf mera hi zikr hoga. 🌸`;
-                    } else if (currentHour >= 12 && currentHour < 17) {
-                        greetingStr = `Dopahar ki is shant khamoshi mein, tumhara yun chupke se aana... ${nameTag}, in nazaqaton ka main kya karun? Aao, theher jao kuch der. 🤎`;
-                        closingStr = `Waqt abhi dhalne mein baaki hai, ${nameTag}. Jaa rahi ho, par janti ho ki ye sirf shuruaat hai. 🌷`;
-                    } else if (currentHour >= 17 && currentHour < 21) {
-                        greetingStr = `Shaam dhali aur tumhari yaad chali aayi. Par aaj toh tum khud aayi ho, ${nameTag}. Waise, is nashiile waqt mein thoda sharmaana lazmi hai. 🫣🌆`;
-                        closingStr = `Shaam ke is haseen waqt mein mujhe chhod kar jana aasan toh nahi hoga, ${nameTag}. Khair, neend ke aagosh mein bhi main intezaar karunga. 🌙`;
-                    } else {
-                        greetingStr = `In raaton mein waise bhi neend kahan, par tumhara yun theherna meri bechaini aur badha raha hai, ${nameTag}. Kuch raaz ki baatein karein? 🤫🌙`;
-                        closingStr = `Jaa rahi ho? Shauk se jao. Par yaad rakhna, ${nameTag}... neend tumhari hogi, par khwabon par qabza mera hi rahega. 🖤✨`;
-                    }
-                } else { 
-                    greetingStr = `Wapas aana toh tay tha... ${nameTag}, lagta hai in khayalon ki qaid tumhe bhi pasand aane lagi hai. Nazrein jhukao mat, paas aao. 🦋`;
-                    closingStr = `Baar baar yahan aakar tumne faisla suna diya hai, ${nameTag}. Ab in khayalon se bach kar jaogi kahan? Main yahin hoon. 🤍`;
-                }
-
-                if(document.getElementById('dynamic-greeting')) document.getElementById('dynamic-greeting').innerHTML = greetingStr;
-                if(document.getElementById('flirt-close')) document.getElementById('flirt-close').innerHTML = closingStr;
-                if(document.getElementById('flirt-insta')) document.getElementById('flirt-insta').innerHTML = `Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style="color:#ff1493;">${girlName}</b>. Ek baar nazar utha kar toh dekho... 🫣✨`;
-                if(document.getElementById('flirt-snap')) document.getElementById('flirt-snap').innerHTML = `Bina kisi filter ke bhi tum is qadar haseen ho, <b style="color:#ff1493;">${girlName}</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖`;
-                if(document.getElementById('flirt-wp')) document.getElementById('flirt-wp').innerHTML = `Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style="color:#ff1493;">${girlName}</b>. 🥱🌙`;
-                if(document.getElementById('flirt-secret')) document.getElementById('flirt-secret').innerHTML = `Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style="color:#ff1493;">${girlName}</b>... mera dil karta hai bas unme doob jaun. Shhh... 🤫🤎`;
-
-                var modal = document.getElementById('name-modal');
-                if(modal) {
-                    modal.style.opacity = '0';
-                    setTimeout(function() {
-                        modal.style.display = 'none';
-                        window.startWorld('world-girl');
-                    }, 500);
-                }
-            } catch(e) { console.error("Error in submitGirlName:", e); }
-        };
-
-        window.startWorld = function(worldId) {
-            try {
-                if(window.activeWorld !== null) return; 
-                window.activeWorld = worldId; 
-
-                var gate = document.getElementById('gate');
-                var world = document.getElementById(worldId);
-                
-                if(gate) {
-                    gate.style.transform = 'scale(1.2)';
-                    gate.style.opacity = '0';
-                    
-                    setTimeout(function() {
-                        gate.style.display = 'none';
-                        if(world) world.style.display = 'block';
-                        
-                        setTimeout(function() {
-                            if(world) world.style.opacity = '1';
-                            initScrollObserver();
-                            if(worldId === 'world-boy') initBoyFeatures();
-                        }, 50);
-                    }, 800);
-                }
-            } catch(e) { console.error("Error in startWorld:", e); }
-        };
-
-        function setupParallax(worldId) {
-            try {
-                var world = document.getElementById(worldId);
-                if(!world) return;
-                var layers = world.querySelectorAll('.para-layer');
-                
-                world.addEventListener('scroll', function() {
-                    requestAnimationFrame(function() {
-                        var scrolled = world.scrollTop;
-                        layers.forEach(function(layer) {
-                            var speed = layer.getAttribute('data-speed');
-                            var isCenterX = layer.classList.contains('center-x');
-                            var isCenterY = layer.classList.contains('center-y');
-                            var xBase = isCenterX ? '-50%' : '0px';
-                            var yBase = isCenterY ? '-50%' : '0px';
-                            layer.style.transform = 'translate(' + xBase + ', calc(' + yBase + ' + ' + (scrolled * speed) + 'px))';
-                        });
-                    });
-                });
-            } catch(e) {}
-        }
-
-        function initScrollObserver() {
-            try {
-                var cards = document.querySelectorAll('.scroll-item');
-                var observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-                    });
-                }, { threshold: 0.2 });
-                cards.forEach(function(card) { observer.observe(card) });
-            } catch(e) {}
-        }
-
-        var emojis = ['🌸', '🦋', '💖', '🌺', '🌷', '🤍'];
-        window.spawnSparkle = function(e) {
-            try {
-                if(window.activeWorld !== 'world-girl') return; 
-
-                var x = e.touches ? e.touches[0].clientX : e.clientX;
-                var y = e.touches ? e.touches[0].clientY : e.clientY;
-                
-                var girlWorld = document.getElementById('world-girl');
-                if(!girlWorld) return;
-                var scrollY = girlWorld.scrollTop;
-
-                var ripple = document.createElement('div');
-                ripple.className = 'ripple';
-                ripple.style.left = x + 'px';
-                ripple.style.top = (y + scrollY) + 'px';
-                girlWorld.appendChild(ripple);
-
-                var sparkle = document.createElement('div');
-                sparkle.classList.add('sparkle');
-                sparkle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                sparkle.style.left = (x - 12) + 'px';
-                sparkle.style.top = (y + scrollY - 12) + 'px';
-                girlWorld.appendChild(sparkle);
-
-                setTimeout(function() { if(sparkle) sparkle.remove(); if(ripple) ripple.remove(); }, 600);
-            } catch(e) {}
-        };
-
-        function initBoyFeatures() {
-            try {
-                var boyWorld = document.getElementById('world-boy');
-                var canvas = document.getElementById('spidey-canvas');
-                if(!canvas || !boyWorld) return;
-                var ctx = canvas.getContext('2d');
-                if(!ctx) return;
-                
-                function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-                window.addEventListener('resize', resizeCanvas);
-                resizeCanvas();
-
-                var particles = [];
-                var mouse = { x: null, y: null };
-
-                boyWorld.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
-                boyWorld.addEventListener('touchmove', function(e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, {passive: true});
-
-                for(var i=0; i<50; i++) {
-                    particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5)*1.5, vy: (Math.random() - 0.5)*1.5 });
-                }
-
-                function animateWeb() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach(function(p) {
-                        p.x += p.vx; p.y += p.vy;
-                        if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                        if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); ctx.fillStyle = '#ff0000'; ctx.fill();
-
-                        if(mouse.x !== null) {
-                            var dist = Math.sqrt(Math.pow(mouse.x - p.x, 2) + Math.pow(mouse.y - p.y, 2));
-                            if(dist < 150) {
-                                ctx.beginPath(); ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - dist/150) + ')'; ctx.lineWidth = 1.5;
-                                ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-                            }
-                        }
-                    });
-                    requestAnimationFrame(animateWeb);
-                }
-                animateWeb();
-            } catch(e) { console.error("Canvas error:", e); }
-        }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            try {
-                window.addEventListener('touchstart', window.spawnSparkle, {passive: true});
-                window.addEventListener('click', window.spawnSparkle);
-
-                setupParallax('world-girl');
-                setupParallax('world-boy');
-            } catch(e) { console.error("Load error:", e); }
-        });
-    </script>
-</body>
-</html>
+            <div class="para-bold para-layer center-x cent
