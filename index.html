@@ -717,4 +717,19 @@
                         ctx.lineTo(mouse.x, mouse.y); 
                         ctx.stroke();
                     }
+                }
+                requestAnimationFrame(animateWeb);
+            }
+            animateWeb();
+        }
+
+        window.onload = function() {
+            window.addEventListener('touchstart', spawnSparkle, {passive: true});
+            window.addEventListener('click', spawnSparkle);
+            setupParallax('world-girl');
+            setupParallax('world-boy');
+        };
+    </script>
+</body>
+</html>
     
