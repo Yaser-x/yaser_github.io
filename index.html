@@ -655,4 +655,424 @@
             font-size: 0.7rem; 
             font-family: 'Montserrat', sans-serif; 
             background: rgba(255,0,0,0.2); 
-            border: 1px solid rgba(255,0
+            border: 1px solid rgba(255,0,0,0.5); 
+            padding: 4px 10px; 
+            border-radius: 5px; 
+            font-weight: 900; 
+            letter-spacing: 2px; 
+            color: #ff0000; 
+            margin-top: -30px; 
+            pointer-events: none; 
+        }
+
+        .spotify-wrap { 
+            width: 100%; 
+            max-width: 450px; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            z-index: 10; 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: 1s; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
+        }
+
+        .spotify-wrap.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        .spotify-girl { 
+            border: 2px solid rgba(255,255,255,0.5); 
+            box-shadow: 0 15px 40px rgba(255,20,147,0.3); 
+        }
+
+        .spotify-boy { 
+            border: 2px solid #550000; 
+            box-shadow: 0 15px 40px rgba(255,0,0,0.3); 
+        }
+
+        .terminate-btn {
+            background: transparent; 
+            border: 2px solid #ff0000; 
+            color: #ff0000; 
+            padding: 15px 30px;
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 1.2rem; 
+            font-weight: 900; 
+            letter-spacing: 3px;
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+            border-radius: 5px; 
+            margin-top: 20px; 
+            z-index: 100; 
+            position: relative; 
+            overflow: hidden;
+        }
+
+        .terminate-btn:hover { 
+            background: #ff0000; 
+            color: #000; 
+            box-shadow: 0 0 30px #ff0000; 
+        }
+        
+        #offline-msg { 
+            display: none; 
+            color: #ff0000; 
+            font-size: clamp(2.5rem, 8vw, 5rem); 
+            font-weight: 900; 
+            letter-spacing: 5px; 
+            text-shadow: 0 0 20px red; 
+            animation: glitch 0.3s infinite; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 100%; 
+            text-align: center; 
+            z-index: 999999; 
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="sanam.mp3" preload="auto"></audio>
+    <audio id="meme-audio" src="fahhh.mp3" preload="auto"></audio>
+    <audio id="click-audio" src="click.mp3" preload="auto"></audio>
+
+    <div id="music-toggle-btn" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <div id="gate">
+        <button class="door door-girl" onclick="openGirlModal()">
+            FOR HER 
+            <svg class="custom-emoji" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 85 C 15 55, 5 25, 25 15 C 40 8, 50 25, 50 25 C 50 25, 60 8, 75 15 C 95 25, 85 55, 50 85 Z" fill="url(#pinkGradient)"/>
+                <path d="M50 70 C 30 50, 20 30, 35 25 C 45 20, 50 35, 50 35 C 50 35, 55 20, 65 25 C 80 30, 70 50, 50 70 Z" fill="rgba(255, 255, 255, 0.4)"/>
+                <defs>
+                    <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff1493" />
+                        <stop offset="100%" stop-color="#ffb3d9" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </button>
+        <button class="door door-boy" onclick="enterBoyWorld()">FOR HIM 🕷️</button>
+    </div>
+
+    <div id="name-modal">
+        <div class="modal-box">
+            <h2>Who's there?</h2>
+            <input type="text" id="girl-name-input" placeholder="Your name" autocomplete="off">
+            <button onclick="processGirlName()">ENTER</button>
+        </div>
+    </div>
+
+    <div id="girl-bye-overlay">
+        <div class="rose-icon">🌹</div>
+        <div class="bye-text">Bye, Take care<br><span style="font-size:1.5rem; color:#ffb3d9; font-weight:700; margin-top: 10px; display: block;">Alvida...</span></div>
+    </div>
+
+    <div id="world-girl" class="world">
+
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">NOOR</div>
+            <div class="main-flirt">
+                <img src="start.gif" class="cute-gif" alt="Cute Start">
+                <span id="dynamic-greeting"></span>
+            </div>
+            <div class="scroll-down-icon">Scroll</div>
+        </div>
+        
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">NASHA</div>
+            <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item">
+                <span class="tap-badge">TAP 👆</span>
+                <img src="insta.gif" class="cute-gif" alt="Insta Cat">
+                <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>
+                <div class="g-flirt" id="flirt-insta"></div>
+            </a>
+        </div>
+        
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.25">AADAT</div>
+            <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item">
+                <span class="tap-badge">TAP 👆</span>
+                <img src="snap.gif" class="cute-gif" alt="Snap Cat">
+                <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>
+                <div class="g-flirt" id="flirt-snap"></div>
+            </a>
+        </div>
+        
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.1">RAATEN</div>
+            <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item">
+                <span class="tap-badge">TAP 👆</span>
+                <img src="whatsapp.gif" class="cute-gif" alt="WhatsApp Cat">
+                <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+                <div class="g-flirt" id="flirt-wp"></div>
+            </a>
+        </div>
+        
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">RAAZ</div>
+            <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item">
+                <span class="tap-badge">TAP 👆</span>
+                <img src="secret.gif" class="cute-gif" alt="Secret Cat">
+                <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>
+                <div class="g-flirt" id="flirt-secret"></div>
+            </a>
+        </div>
+
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">MELODY</div>
+            <div class="spotify-wrap spotify-girl scroll-item">
+                <iframe style="border-radius:12px" src="Https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?si=USwfLLxJS0SLTKRneUZJgQ" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">ALVIDA</div>
+            <div class="scroll-item" style="text-align: center; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <img src="end.gif" class="cute-gif" alt="Bye Cat">
+                <div class="g-flirt" style="color: #fff; text-shadow: 0 0 10px #ff1493; font-size: 1.2rem;">Safar yahan khatam hota hai...</div>
+                <button class="bye-girl-btn" onclick="triggerGirlBye()">Say Goodbye 🌹</button>
+            </div>
+        </div>
+        <div style="height: 5vh;"></div>
+    </div>
+
+    <div id="world-boy" class="world">
+        <div id="offline-msg">SYSTEM OFFLINE<br><span style="font-size: 3.5rem; text-shadow: none; display: inline-block; margin-top: 15px; animation: none;">😂</span></div>
+        
+        <canvas id="spidey-canvas"></canvas>
+        
+        <div class="section boy-content" style="flex-direction: column;">
+            <div class="yaser-name">YASER</div>
+            <div class="yaser-bio">Science 🧬  |  Code 💻  |  Web 🌐  |  Tech ⚙️</div>
+            <div class="scroll-down-icon" style="bottom: 10vh;">Scroll</div>
+        </div>
+        
+        <div class="section boy-content">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SPIDERMAN</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"With great power comes great responsibility."</div>
+            
+            <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==')">
+                <span class="tap-badge-boy">TAP [↗]</span>
+                <span class="b-num">01</span>
+                <span class="b-title"><i class="fab fa-instagram"></i> Main Profile</span>
+            </div>
+        </div>
+        
+        <div class="section boy-content">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.25">SHADOWS</div>
+            <div class="para-quote para-layer center-x" data-speed="0.45">"We operate in the dark."</div>
+            
+            <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo')">
+                <span class="tap-badge-boy">TAP [↗]</span>
+                <span class="b-num">02</span>
+                <span class="b-title"><i class="fab fa-instagram"></i> Shadow Identity</span>
+            </div>
+        </div>
+        
+        <div class="section boy-content">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.1">WEB-SLINGER</div>
+            <div class="para-quote para-layer center-x" data-speed="0.3">"My spider-sense is tingling."</div>
+            
+            <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB')">
+                <span class="tap-badge-boy">TAP [↗]</span>
+                <span class="b-num">03</span>
+                <span class="b-title"><i class="fab fa-snapchat-ghost"></i> Snapchat Base</span>
+            </div>
+        </div>
+        
+        <div class="section boy-content">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">VENOM</div>
+            <div class="para-quote para-layer center-x" data-speed="0.4">"Embrace the darkness."</div>
+            
+            <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://api.whatsapp.com/send?phone=919356047251')">
+                <span class="tap-badge-boy">TAP [↗]</span>
+                <span class="b-num">04</span>
+                <span class="b-title"><i class="fab fa-whatsapp"></i> WhatsApp Comms</span>
+            </div>
+        </div>
+        
+        <div class="section boy-content">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.15">SILENCE</div>
+            <div class="para-quote para-layer center-x" data-speed="0.35">"Let the music speak."</div>
+            <div class="spotify-wrap spotify-boy scroll-item">
+                <iframe style="border-radius:12px" src="Https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?si=USwfLLxJS0SLTKRneUZJgQ" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="section boy-content end-screen" style="flex-direction: column; text-align: center; justify-content: center;">
+            <div class="para-bold para-layer center-x center-y" data-speed="0.2">SYSTEM</div>
+            <button class="terminate-btn" id="terminate-btn" onclick="triggerMeltdown()">TERMINATE CONNECTION</button>
+        </div>
+        <div style="height: 5vh;" class="boy-content"></div>
+    </div>
+
+    <script>
+        var isWorldActive = false;
+        var currentWorld = "";
+        var isMusicMuted = false;
+
+        // --- Music Toggle Logic ---
+        function toggleMusic() {
+            var bgMusic = document.getElementById('bg-music');
+            var toggleBtn = document.getElementById('music-toggle-btn');
+            if(!bgMusic || !toggleBtn) return;
+            
+            if (isMusicMuted) {
+                bgMusic.volume = 0.3; // Unmute, max 30%
+                toggleBtn.innerHTML = '<i class="fas fa-music"></i>';
+                isMusicMuted = false;
+            } else {
+                bgMusic.volume = 0; // Mute
+                toggleBtn.innerHTML = '<i class="fas fa-volume-mute" style="color: #ff69b4;"></i>';
+                isMusicMuted = true;
+            }
+        }
+
+        // --- Modal Logic ---
+        function openGirlModal() {
+            if (isWorldActive) return;
+            var modal = document.getElementById('name-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+                setTimeout(function() {
+                    modal.style.opacity = '1';
+                    var box = document.querySelector('.modal-box');
+                    if(box) box.style.transform = 'translateY(0)';
+                }, 10);
+            }
+        }
+
+        // --- Gate Entry Logic ---
+        function enterBoyWorld() {
+            if (isWorldActive) return;
+            triggerWorld('world-boy');
+        }
+
+        function triggerWorld(wId) {
+            isWorldActive = true;
+            currentWorld = wId;
+            var gate = document.getElementById('gate');
+            var world = document.getElementById(wId);
+            
+            if (gate && world) {
+                gate.style.transform = 'scale(1.2)';
+                gate.style.opacity = '0';
+                setTimeout(function() {
+                    gate.style.display = 'none';
+                    world.style.display = 'block';
+                    setTimeout(function() {
+                        world.style.opacity = '1';
+                        initScrollObserver();
+                        if (wId === 'world-boy') initBoyFeatures();
+                    }, 50);
+                }, 800);
+            }
+        }
+
+        // --- Boy Hacker Click + Glow Delay ---
+        function boyCardClick(element, targetUrl) {
+            var clickSnd = document.getElementById('click-audio');
+            if (clickSnd) {
+                clickSnd.currentTime = 0;
+                clickSnd.volume = 1.0;
+                var playProm = clickSnd.play();
+                if (playProm !== undefined) {
+                    playProm.catch(function(e) { console.log("Audio blocked", e); });
+                }
+            }
+            
+            element.classList.add('glow-red');
+            
+            setTimeout(function() {
+                element.classList.remove('glow-red');
+                window.location.href = targetUrl;
+            }, 500);
+        }
+
+        // --- Girl Name Processing & Time Logic ---
+        function processGirlName() {
+            var inputElem = document.getElementById('girl-name-input');
+            var rawName = (inputElem && inputElem.value) ? inputElem.value.trim() : "";
+            var girlName = rawName !== "" ? rawName : "Haseen";
+            var nameTag = '<span class="name-highlight">' + girlName + '</span>';
+
+            // Music Fade-in logic (0 to 30%)
+            var bgMusic = document.getElementById('bg-music');
+            if (bgMusic) {
+                bgMusic.volume = 0;
+                bgMusic.currentTime = 45;
+                var playProm = bgMusic.play();
+                if (playProm !== undefined) {
+                    playProm.then(function() {
+                        var fadeAudio = setInterval(function () {
+                            if (bgMusic.volume < 0.25) { 
+                                bgMusic.volume += 0.05; 
+                            } else { 
+                                bgMusic.volume = 0.3; 
+                                clearInterval(fadeAudio); 
+                            }
+                        }, 200);
+                    }).catch(function(e) { console.log("Audio blocked", e); });
+                }
+            }
+
+            // LocalStorage Returning User Check
+            var isReturning = false;
+            try {
+                if (window.localStorage) {
+                    var savedName = localStorage.getItem('yaser_girl_name');
+                    if (savedName && savedName.toLowerCase() === girlName.toLowerCase()) {
+                        isReturning = true; 
+                    } else {
+                        localStorage.setItem('yaser_girl_name', girlName);
+                        isReturning = false;
+                    }
+                }
+            } catch (e) {}
+
+            var currentHour = new Date().getHours();
+            var greetingStr = "";
+
+            if (!isReturning) { 
+                if (currentHour >= 5 && currentHour < 12) {
+                    greetingStr = "Suraj ki pehli kiran se pehle, mere khayalon mein aane ki aadat kab se ho gayi, " + nameTag + "? Subah aur bhi haseen lagne lagi hai ab. ✨";
+                } else if (currentHour >= 12 && currentHour < 17) {
+                    greetingStr = "Dopahar ki is shant khamoshi mein, tumhara yun chupke se aana... " + nameTag + ", in nazaqaton ka main kya karun? Aao, theher jao kuch der. 🤎";
+                } else if (currentHour >= 17 && currentHour < 21) {
+                    greetingStr = "Shaam dhali aur tumhari yaad chali aayi. Par aaj toh tum khud aayi ho, " + nameTag + ". Waise, is nashiile waqt mein thoda sharmaana lazmi hai. 🫣🌆";
+                } else {
+                    greetingStr = "In raaton mein waise bhi neend kahan, par tumhara yun theherna meri bechaini aur badha raha hai, " + nameTag + ". Kuch raaz ki baatein karein? 🤫🌙";
+                }
+            } else { 
+                var returnFlirts = [
+                    "Wapas aana toh tay tha... " + nameTag + ", lagta hai in khayalon ki qaid tumhe bhi pasand aane lagi hai. Nazrein jhukao mat, paas aao. 🦋",
+                    "Phir se aa gayi? Ya toh tumhe is jagah ki aadat ho gayi hai, ya meri... dono hi baatein haseen hain, " + nameTag + ". 🖤",
+                    "Mujhe pata tha tum zaroor lautogi. In khamoshiyon mein jo kashish hai, wo tumhe door jane hi kahan degi, " + nameTag + "? ✨",
+                    "Ek baar aana ittefaq ho sakta hai, par baar-baar aana... is nazaqat ko main kya naam doon, " + nameTag + "? 🥀"
+                ];
+                greetingStr = returnFlirts[Math.floor(Math.random() * returnFlirts.length)];
+            }
+
+            // Setting innerHTMLs
+            var elGreeting = document.getElementById('dynamic-greeting');
+            if(elGreeting) elGreeting.innerHTML = greetingStr;
+
+            var elInsta = document.getElementById('flirt-insta');
+            if(elInsta) elInsta.innerHTML = "Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style='color:#ff1493;'>" + girlName + "</b>. Ek baar nazar utha kar toh dekho... 🫣✨";
+
+            var elSnap = document.getElementById('flirt-snap');
+            if(elSnap) elSnap.innerHTML = "Bina kisi filter ke bhi tum is qadar haseen ho, <b style='color:#ff1493;'>" + girlName + "</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖";
+
+            var elWp = document.getElementById('flirt-wp');
+            if(elWp) elWp.innerHTML = "Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style='color:#ff1493;'>" + girlName + "</b>. 🥱🌙";
+
+            var elSec = document.getElementById('flirt-secret');
+            if(elSec) elSec.innerHTML = "Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style='color:
