@@ -1,3 +1,29 @@
+    /* MODALS */
+    #name-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; background: rgba(0,0,0,0.8); z-index: 100000; justify-content: center; align-items: center; backdrop-filter: blur(10px); flex-direction: column; opacity: 0; transition: opacity 0.5s; }  
+    .modal-box { background: rgba(255, 105, 180, 0.2); padding: 30px; border-radius: 20px; text-align: center; color: white; box-shadow: 0 10px 40px rgba(255,20,147,0.5); width: 90%; max-width: 350px; transform: translateY(50px); transition: transform 0.5s; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(20px); }  
+    .modal-box h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }  
+    .modal-box input { width: 100%; padding: 15px; border-radius: 10px; border: none; font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 700; text-align: center; color: #ff1493; outline: none; background: rgba(255,255,255,0.9); }  
+    .modal-box button { margin-top: 20px; width: 100%; padding: 15px; background: #fff; color: #ff1493; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 5px 15px rgba(255,255,255,0.3); transition: 0.3s; }  
+
+    /* COMMON WORLD STYLES */
+    .world { position: absolute; top: 0; left: 0; width: 100%; height: 100dvh; display: none; opacity: 0; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; transition: opacity 1s ease-in-out; }  
+    .section { width: 100%; min-height: 100dvh; display: flex; justify-content: center; align-items: center; position: relative; padding: 40px 20px; overflow: hidden; }  
+    .scroll-down-icon { position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; animation: floatUpDown 2s infinite ease-in-out; z-index: 50; opacity: 0.8; }  
+    .scroll-down-icon::after { content: '↓'; font-size: 1.5rem; }  
+    @keyframes floatUpDown { 0%, 100% {transform: translate(-50%, 0);} 50% {transform: translate(-50%, 10px);} }  
+
+    .para-bold { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center; white-space: nowrap; font-size: clamp(3.5rem, 18vw, 12rem); font-weight: 900; text-transform: uppercase; color: transparent; z-index: 0; pointer-events: none; }  
+    .para-quote { position: absolute; top: 12%; left: 50%; transform: translateX(-50%); width: 90%; text-align: center; font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 700; color: #fff; text-shadow: 0 5px 15px rgba(0,0,0,0.9); font-style: italic; z-index: 0; pointer-events: none; letter-spacing: 1px; }  
+    .tap-badge { position: absolute; top: 15px; right: 15px; font-size: 0.6rem; font-family: 'Nunito', sans-serif; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); padding: 4px 8px; border-radius: 20px; font-weight: 900; letter-spacing: 1px; animation: pulseTap 1.5s infinite; color: inherit; text-transform: uppercase; pointer-events: none; }  
+    @keyframes pulseTap { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); } 70% { box-shadow: 0 0 10px 10px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }  
+
+    /* BYE OVERLAY */
+    #girl-bye-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; background: #050505; z-index: 9999999; display: none; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 1.5s ease-in-out; }  
+    .rose-icon { font-size: 6rem; margin-bottom: 20px; animation: floatRose 3s infinite ease-in-out; filter: drop-shadow(0 0 30px rgba(255,0,0,0.6)); }  
+    @keyframes floatRose { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.1); filter: drop-shadow(0 0 50px rgba(255,0,0,0.9)); } }  
+    .bye-text { color: #fff; font-size: 2.5rem; font-family: 'Nunito', sans-serif; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 15px rgba(255,20,147,0.8); text-align: center; }  
+    .bye-girl-btn { background: rgba(255,255,255,0.3); border: 2px solid #ff1493; color: #ff1493; padding: 15px 40px; font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; transition: 0.3s; border-radius: 30px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(255,20,147,0.2); margin-top: 10px; }  
+    .bye-girl-btn:hover { background: #ff1493; color: #fff; box-shadow: 0 0 30px #ff1493; transform: translateY(-5px); }  
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
