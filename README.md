@@ -1,1 +1,1 @@
-# My-portfolio-dual-vibe
+# My-personal-portfolio
