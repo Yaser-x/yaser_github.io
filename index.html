@@ -80,8 +80,7 @@
     .yaser-name { font-size: clamp(4rem, 15vw, 8rem); font-weight: 900; color: #ff0000; letter-spacing: 10px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 2px 2px 0px #880000, 4px 4px 0px #660000, 6px 6px 0px #440000, 8px 8px 0px #220000, 10px 10px 30px rgba(255,0,0,0.8); position: relative; z-index: 5; animation: textReveal 1.5s ease-out forwards;}  
     .yaser-bio { font-size: clamp(0.7rem, 2.5vw, 1.2rem); font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; z-index: 10; border-top: 1px solid #550000; border-bottom: 1px solid #550000; padding: 10px 0; text-align: center; position: relative; z-index: 5; animation: textReveal 2s ease-out forwards;}  
     
-    /* MODIFIED B-CARD FOR 3D & PNG */
-    .b-card { margin-top: 25vh; background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(5,5,5,0.98)); border: 1px solid rgba(255,0,0,0.15); border-left: 5px solid #ff0000; width: 100%; max-width: 450px; padding: 30px; border-radius: 15px; color: #fff; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,0,0,0.05); cursor: pointer; opacity: 0; transform: scale(0.85) translateY(80px); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: block; position: relative; overflow: hidden; transform-style: preserve-3d; }  
+    .b-card { margin-top: 25vh; background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(5,5,5,0.98)); border: 1px solid rgba(255,0,0,0.15); border-left: 5px solid #ff0000; width: 100%; max-width: 450px; padding: 30px; border-radius: 15px; color: #fff; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,0,0,0.05); backdrop-filter: blur(10px); cursor: pointer; opacity: 0; transform: scale(0.85) translateY(80px); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: block; position: relative; overflow: hidden; transform-style: preserve-3d; }  
     .b-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,0,0,0.15), transparent); transform: skewX(-20deg); transition: 0.6s ease; z-index: 1; pointer-events: none; }
     .b-card:hover::after { left: 150%; transition: 0.6s ease-in-out; }
     .b-card.visible { opacity: 1; transform: scale(1) translateY(0); }  
@@ -263,75 +262,6 @@
     </div>  
     <div style="height: 5vh;"></div>  
 </div>  
-<div id="world-girl" class="world">  
-    <div class="section" style="justify-content: center;">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.2" style="top: 50%;">NOOR</div>  
-        <div class="main-flirt">  
-            <img src="start.gif" class="cute-gif" alt="Cute Start">  
-            <span id="dynamic-greeting"></span>  
-        </div>  
-        <div class="scroll-down-icon">Scroll</div>  
-    </div>  
-    <div class="section">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.15">NASHA</div>  
-        <a href="https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==" class="g-card scroll-item" onclick="logActivity('Opened Instagram (Nasha)')">  
-            <span class="tap-badge">TAP 👆</span>  
-            <img src="insta.gif" class="cute-gif" alt="Insta Cat">  
-            <div class="g-title"><i class="fab fa-instagram"></i> Instagram</div>  
-            <div class="g-flirt" id="flirt-insta"></div>  
-        </a>  
-    </div>  
-
-    <div class="section">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.25">AADAT</div>  
-        <a href="https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB" class="g-card scroll-item" onclick="logActivity('Opened Snapchat (Aadat)')">  
-            <span class="tap-badge">TAP 👆</span>  
-            <img src="snap.gif" class="cute-gif" alt="Snap Cat">  
-            <div class="g-title"><i class="fab fa-snapchat-ghost"></i> Snapchat</div>  
-            <div class="g-flirt" id="flirt-snap"></div>  
-        </a>  
-    </div>  
-
-    <div class="section">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.1">RAATEN</div>  
-        <a href="https://api.whatsapp.com/send?phone=919356047251" class="g-card scroll-item" onclick="logActivity('Opened WhatsApp (Raaten)')">  
-            <span class="tap-badge">TAP 👆</span>  
-            <img src="whatsapp.gif" class="cute-gif" alt="WhatsApp Cat">  
-            <div class="g-title"><i class="fab fa-whatsapp"></i> WhatsApp</div>  
-            <div class="g-flirt" id="flirt-wp"></div>  
-        </a>  
-    </div>  
-
-    <div class="section">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.2">RAAZ</div>  
-        <a href="https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo" class="g-card scroll-item" onclick="logActivity('Opened Secret Vibe (Raaz)')">  
-            <span class="tap-badge">TAP 👆</span>  
-            <img src="secret.gif" class="cute-gif" alt="Secret Cat">  
-            <div class="g-title"><i class="fab fa-instagram"></i> Secret Vibe</div>  
-            <div class="g-flirt" id="flirt-secret"></div>  
-        </a>  
-    </div>  
-    <div class="section" onmouseenter="logActivity('Scrolled to Spotify (Melody)')">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.15">MELODY</div>  
-        <div class="spotify-wrap spotify-girl scroll-item">  
-            <iframe style="border-radius:12px" src="Https://open.spotify.com/embed/playlist/1HJZWn6Z8UGrK2SxECf9bb?si=USwfLLxJS0SLTKRneUZJgQ" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>  
-        </div>  
-    </div>  
-
-    <div class="section" style="flex-direction: column; gap: 40px; justify-content: center;">  
-        <div class="para-bold para-layer center-x center-y" data-speed="0.2" style="top: 50%;">ALVIDA</div>  
-        <div class="scroll-item" style="text-align: center; z-index: 10;">  
-            <button class="bye-girl-btn" onclick="showMirrorPopup()">Duniya ki sabse khubsurat cheez dekhni hai? Click/Tap 👆🙈</button>  
-        </div>
-
-        <div class="scroll-item" style="text-align: center; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 15px;">  
-            <img src="end.gif" class="cute-gif" alt="Bye Cat">  
-            <div class="g-flirt" style="color: #fff; text-shadow: 0 0 10px #ff1493; font-size: 1.2rem;">Safar yahan khatam hota hai...</div>  
-            <button class="bye-girl-btn" onclick="triggerGirlBye()">Say Goodbye 🌹</button>  
-        </div>  
-    </div>  
-    <div style="height: 5vh;"></div>  
-</div>  
 <button id="sensor-btn" onclick="initGyro()">START 3D ENGINE</button>
 
 <div id="world-boy" class="world">      
@@ -341,7 +271,7 @@
 
     <div class="section boy-content" style="justify-content: center;">  
         <div class="tilt-target" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-            <img src="1000058390.png" style="width: 220px; filter: drop-shadow(0 15px 25px rgba(255,0,0,0.5)); margin-bottom: -15px; position: relative; z-index: 10;" alt="Mask">
+            <img src="hero-spidey.png" style="width: 220px; filter: drop-shadow(0 15px 25px rgba(255,0,0,0.5)); margin-bottom: -15px; position: relative; z-index: 10; transform: translateZ(50px);" alt="Mask">
             <div class="yaser-name" style="position: relative; z-index: 5;">YASER</div>  
             <div class="yaser-bio" style="position: relative; z-index: 5;">Science 🧬  |  Code 💻  |  Web 🌐  |  Tech ⚙️</div>  
         </div>
@@ -354,7 +284,7 @@
         
         <div class="tilt-target" style="width: 100%; max-width: 450px; margin: 0 auto;">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==', 'Main Profile (Insta)')">  
-                <img src="1000058389.png" style="position: absolute; right: -20px; bottom: 0; height: 120%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8));" alt="Spidey1">
+                <img src="spidey-swing.png" style="position: absolute; right: -20px; bottom: 0; height: 120%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8)); transform: translateZ(20px);" alt="Spidey1">
                 
                 <div style="position: relative; z-index: 5;">
                     <span class="tap-badge-boy">TAP [↗]</span>  
@@ -371,7 +301,7 @@
         
         <div class="tilt-target" style="width: 100%; max-width: 450px; margin: 0 auto;">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo', 'Shadow Identity (Insta)')">  
-                <img src="1000058391.png" style="position: absolute; right: -30px; bottom: 0; height: 130%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8));" alt="Spidey2">
+                <img src="spidey-advanced.png" style="position: absolute; right: -30px; bottom: 0; height: 130%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8)); transform: translateZ(20px);" alt="Spidey2">
                 
                 <div style="position: relative; z-index: 5;">
                     <span class="tap-badge-boy">TAP [↗]</span>  
@@ -387,7 +317,7 @@
         
         <div class="tilt-target" style="width: 100%; max-width: 450px; margin: 0 auto;">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB', 'Snapchat Base')">  
-                <img src="1000058392.png" style="position: absolute; right: 0; top: 0; height: 110%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8));" alt="DP1">
+                <img src="deadpool-flowers.png" style="position: absolute; right: 0; top: 0; height: 110%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8)); transform: translateZ(20px);" alt="DP1">
                 
                 <div style="position: relative; z-index: 5;">
                     <span class="tap-badge-boy">TAP [↗]</span>  
@@ -404,7 +334,7 @@
         
         <div class="tilt-target" style="width: 100%; max-width: 450px; margin: 0 auto;">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://api.whatsapp.com/send?phone=919356047251', 'WhatsApp Comms')">  
-                <img src="1000058393.png" style="position: absolute; right: -10px; bottom: -10px; height: 120%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8));" alt="DP2">
+                <img src="deadpool-arms.png" style="position: absolute; right: -10px; bottom: -10px; height: 120%; z-index: 0; opacity: 0.6; pointer-events: none; filter: drop-shadow(-10px 10px 20px rgba(0,0,0,0.8)); transform: translateZ(20px);" alt="DP2">
                 
                 <div style="position: relative; z-index: 5;">
                     <span class="tap-badge-boy">TAP [↗]</span>  
@@ -650,6 +580,7 @@
         var modal = document.getElementById('name-modal');  
         if (modal) { modal.style.opacity = '0'; setTimeout(function() { modal.style.display = 'none'; triggerWorld('world-girl'); var musicBtn = document.getElementById('music-toggle-btn'); if (musicBtn) musicBtn.style.display = 'flex'; }, 500); }  
     }  
+
     function triggerGirlBye() {  
         logActivity("Tapped 'Say Goodbye 🌹'"); triggerStage2();   
         var musicBtn = document.getElementById('music-toggle-btn'); if (musicBtn) musicBtn.style.display = 'none';  
@@ -698,7 +629,6 @@
 
     function updateBannerTime() { let now = new Date(); let hours = now.getHours(); let minutes = now.getMinutes(); let ampm = hours >= 12 ? 'PM' : 'AM'; hours = hours % 12; hours = hours ? hours : 12; minutes = minutes < 10 ? '0' + minutes : minutes; document.getElementById('device-time').innerText = hours + ':' + minutes + ' ' + ampm; }
     function openInstagramDM() { document.getElementById('phone-notification').classList.remove('drop-down'); window.open("https://ig.me/m/sk_yaser_urs", "_blank"); logActivity("Tapped fake Insta notification"); }
-    
     // --- MIRROR LOGIC ---
     let videoStream = null; let flirtLines = []; let currentFlirtIndex = 0; let currentModeIndex = 0;
     const modes = [
@@ -760,6 +690,7 @@
         var ripple = document.createElement('div'); ripple.className = 'ripple'; ripple.style.left = x + 'px'; ripple.style.top = (y + scrollY) + 'px'; girlWorld.appendChild(ripple);                  var sparkle = document.createElement('div'); sparkle.className = 'sparkle'; sparkle.innerText = emojis[Math.floor(Math.random() * emojis.length)]; sparkle.style.left = (x - 12) + 'px'; sparkle.style.top = (y + scrollY - 12) + 'px'; girlWorld.appendChild(sparkle);  
         setTimeout(function() { if (sparkle && sparkle.parentNode) sparkle.parentNode.removeChild(sparkle); if (ripple && ripple.parentNode) ripple.parentNode.removeChild(ripple); }, 600);  
     }  
+
     function initBoyFeatures() {  
         var boyWorld = document.getElementById('world-boy'); var canvas = document.getElementById('spidey-canvas');  
         if (!canvas || !boyWorld) return; var ctx = canvas.getContext('2d'); if (!ctx) return;  
@@ -816,7 +747,7 @@
         currentX = lerpTilt(currentX, targetX, 0.08);
         currentY = lerpTilt(currentY, targetY, 0.08);
 
-        // Apply tilt without breaking text crispness
+        // Apply tilt to all targets
         document.querySelectorAll('.tilt-target').forEach(target => {
             target.style.transform = `perspective(1200px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
         });
