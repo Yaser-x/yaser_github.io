@@ -87,21 +87,23 @@
     .b-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 60px rgba(255,0,0,0.4), inset 0 0 25px rgba(255,0,0,0.15); border-color: #ff0000; }
     .b-card.glow-red { border-color: #ff0000 !important; box-shadow: 0 0 50px rgba(255, 0, 0, 0.9), inset 0 0 30px rgba(255, 0, 0, 0.5) !important; background: rgba(40, 0, 0, 0.9) !important; transform: scale(0.95) !important; }  
     
-    /* Font Crisping: Clean classes */
+    /* Font Crisping: Clean classes without 3D translation inline so fonts stay HD */
     .b-num { font-size: 5rem; color: #ff0000; font-weight: 900; line-height: 1; opacity: 0.9; text-shadow: 4px 4px 0px #330000; margin-bottom: 10px; display: block; font-family: 'Montserrat', sans-serif; position: relative; z-index: 5;}  
     .b-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 5;}  
     .tap-badge-boy { float: right; font-size: 0.7rem; font-family: 'Montserrat', sans-serif; background: rgba(255,0,0,0.15); border: 1px solid rgba(255,0,0,0.4); padding: 4px 10px; border-radius: 5px; font-weight: 900; letter-spacing: 2px; color: #ff0000; margin-top: -30px; pointer-events: none; transition: 0.3s; position: relative; z-index: 5;}  
 
-    /* NEW: PERFECT IMAGE FIT CLASS */
+    /* NEW GLOWING & FITTING PNG CLASS */
     .card-bg-png {
         position: absolute;
-        bottom: 0; right: 20px;
-        height: 90%; 
-        max-width: 55%; 
-        object-fit: contain; /* MAGIC: Keeps image proportionate without cutting */
+        bottom: 0; right: 0;
+        height: 110%; /* Makes image pop nicely */
+        max-width: 60%; 
+        object-fit: contain; /* MAGIC: Keeps image proportionate without cutting the head/body */
         object-position: bottom right;
-        opacity: 0.35; /* Smooth watermark look */
-        z-index: 0; pointer-events: none;
+        opacity: 1 !important; /* FIXED: 100% visible, no fading! */
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.7)); /* Glowing Red Shadow */
+        z-index: 2; /* Puts it behind text but clearly visible */
+        pointer-events: none;
     }
     .spotify-wrap { margin-top: 25vh; width: 100%; max-width: 450px; border-radius: 15px; overflow: hidden; z-index: 10; opacity: 0; transform: translateY(80px); transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 15px 40px rgba(0,0,0,0.5); position: relative;}  
     .spotify-wrap.visible { opacity: 1; transform: translateY(0); }  
@@ -278,7 +280,7 @@
 
     <div class="section boy-content" style="justify-content: center;">  
         <div class="tilt-target">
-            <img src="hero-spidey.png" style="height: 180px; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(255,0,0,0.5)); margin-bottom: 20px;" alt="Mask">
+            <img src="hero-spidey.png" style="height: 180px; object-fit: contain; filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.9)); margin-bottom: 20px; opacity: 1 !important; transform: translateZ(50px);" alt="Mask">
             <div class="yaser-name">YASER</div>  
             <div class="yaser-bio">Science 🧬  |  Code 💻  |  Web 🌐  |  Tech ⚙️</div>  
         </div>
@@ -291,7 +293,7 @@
         
         <div class="tilt-target">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/sk_yaser_urs?igsh=MXE5a2E4ZzR1aTFjYg==', 'Main Profile (Insta)')">  
-                <img src="spidey-swing.png" class="card-bg-png" style="transform: translateZ(10px);" alt="Spidey1">
+                <img src="spidey-swing.png" class="card-bg-png" style="transform: translateZ(15px); right: -10px;" alt="Spidey1">
                 <span class="tap-badge-boy" style="transform: translateZ(30px);">TAP [↗]</span>  
                 <span class="b-num" style="transform: translateZ(40px);">01</span>  
                 <span class="b-title" style="transform: translateZ(20px);"><i class="fab fa-instagram"></i> Main Profile</span>  
@@ -305,7 +307,7 @@
         
         <div class="tilt-target">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.instagram.com/yaser_official_for_you?igsh=ZXNzZ3dnYXZ5YnBo', 'Shadow Identity (Insta)')">  
-                <img src="spidey-advanced.png" class="card-bg-png" style="transform: translateZ(10px);" alt="Spidey2">
+                <img src="spidey-advanced.png" class="card-bg-png" style="transform: translateZ(15px); right: -20px; height: 120%;" alt="Spidey2">
                 <span class="tap-badge-boy" style="transform: translateZ(30px);">TAP [↗]</span>  
                 <span class="b-num" style="transform: translateZ(40px);">02</span>  
                 <span class="b-title" style="transform: translateZ(20px);"><i class="fab fa-instagram"></i> Shadow Identity</span>  
@@ -318,7 +320,7 @@
         
         <div class="tilt-target">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://www.snapchat.com/add/arfat249799?share_id=NesmCnRomaE&locale=en-GB', 'Snapchat Base')">  
-                <img src="deadpool-flowers.png" class="card-bg-png" style="height: 100%; right: 0; transform: translateZ(10px);" alt="DP1">
+                <img src="deadpool-flowers.png" class="card-bg-png" style="transform: translateZ(15px); right: -10px;" alt="DP1">
                 <span class="tap-badge-boy" style="transform: translateZ(30px);">TAP [↗]</span>  
                 <span class="b-num" style="transform: translateZ(40px);">03</span>  
                 <span class="b-title" style="transform: translateZ(20px);"><i class="fab fa-snapchat-ghost"></i> Snapchat Base</span>  
@@ -332,7 +334,7 @@
         
         <div class="tilt-target">
             <div class="b-card scroll-item" onclick="boyCardClick(this, 'https://api.whatsapp.com/send?phone=919356047251', 'WhatsApp Comms')">  
-                <img src="deadpool-arms.png" class="card-bg-png" style="transform: translateZ(10px);" alt="DP2">
+                <img src="deadpool-arms.png" class="card-bg-png" style="transform: translateZ(15px); right: -10px; bottom: -10px;" alt="DP2">
                 <span class="tap-badge-boy" style="transform: translateZ(30px);">TAP [↗]</span>  
                 <span class="b-num" style="transform: translateZ(40px);">04</span>  
                 <span class="b-title" style="transform: translateZ(20px);"><i class="fab fa-whatsapp"></i> WhatsApp Comms</span>  
@@ -483,15 +485,21 @@
 
     function enterBoyWorld() {  
         if (isWorldActive) return;  
-        triggerStage1("Shadow User", "🕷️ Boy World"); triggerWorld('world-boy');  
         
-        // 🎵 NEW: SPIDEY AUDIO TRIGGER
+        // 🎵 FIXED: SPIDEY AUDIO PLAYS IMMEDIATELY ON TAP
         var spideyAudio = document.getElementById('spidey-audio');
         if (spideyAudio) {
+            spideyAudio.currentTime = 0;
             spideyAudio.volume = 1.0;
-            spideyAudio.play().catch(function(e){ console.log("Audio play blocked"); });
+            let playPromise = spideyAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => { console.log("Audio blocked by browser: ", error); });
+            }
         }
 
+        triggerStage1("Shadow User", "🕷️ Boy World"); 
+        triggerWorld('world-boy');  
+        
         // 🚀 GYRO AUTO-START
         if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission().then(state => {
@@ -742,7 +750,6 @@
         currentX = lerpTilt(currentX, targetX, 0.08);
         currentY = lerpTilt(currentY, targetY, 0.08);
 
-        // Apply tilt to target wrappers
         document.querySelectorAll('.tilt-target').forEach(target => {
             target.style.transform = `perspective(1200px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
         });
