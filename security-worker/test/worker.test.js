@@ -94,12 +94,31 @@ test("rejects malformed capture image data", async () => {
   assert.equal(response.status, 400);
 });
 
+test("does not report capture success when Apps Script returns an application error", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({
+    status: "error",
+    message: "Unauthorized access"
+  }, { status: 200 });
+  try {
+    const response = await worker.fetch(request("/capture", {
+      body: JSON.stringify({
+        image: "data:image/jpeg;base64,AAAA",
+        caption: "test capture"
+      })
+    }), env);
+    assert.equal(response.status, 502);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("forwards capture payload with secret only from Worker environment", async () => {
   const originalFetch = globalThis.fetch;
   let upstreamBody;
   globalThis.fetch = async (_url, options) => {
     upstreamBody = JSON.parse(options.body);
-    return new Response("ok", { status: 200 });
+    return Response.json({ status: "success" }, { status: 200 });
   };
   try {
     const response = await worker.fetch(request("/capture", {
