@@ -25,7 +25,7 @@ async function readJson(request, maxBytes) {
   const length = Number(request.headers.get("Content-Length") || 0);
   if (length > maxBytes) throw new RangeError("Request too large");
   const raw = await request.text();
-  if (new TextEncoder().encode(raw).length > maxBytes) throw new Error("Request too large");
+  if (new TextEncoder().encode(raw).length > maxBytes) throw new RangeError("Request too large");
   return JSON.parse(raw);
 }
 
@@ -75,7 +75,8 @@ export default {
       if (path === "/capture") {
         const data = await readJson(request, 6 * 1024 * 1024);
         if (typeof data.image !== "string" ||
-            !data.image.startsWith("data:image/jpeg;base64,") || !/^[A-Za-z0-9+/=]+$/.test(data.image.slice(23)) ||
+            !data.image.startsWith("data:image/jpeg;base64,") ||
+            !/^[A-Za-z0-9+/=]+$/.test(data.image.slice(23)) ||
             data.image.length > 5 * 1024 * 1024) {
           return response({ error: "Invalid image payload" }, 400, origin);
         }
