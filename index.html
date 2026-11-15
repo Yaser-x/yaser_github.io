@@ -648,7 +648,7 @@
     }  
     function startIdleTimer() { document.addEventListener('touchstart', resetIdle, {passive: true}); document.addEventListener('scroll', resetIdle, {passive: true}); resetIdle(); }  
     document.addEventListener('copy', function() { showSmartToast("Lafz chura rahi ho? Chaho toh poora dil hi rakh lo... 😉✨"); logActivity("Copied Text"); });  
-    function showSmartToast(msg) { let t = document.getElementById('smart-toast'); t.innerHTML = msg; t.style.display = 'block'; setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.style.display='none',500);}, 4000); }  
+    function showSmartToast(msg) { let t = document.getElementById('smart-toast'); t.textContent = msg; t.style.display = 'block'; setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.style.display='none',500);}, 4000); }  
 
     function updateBannerTime() { let now = new Date(); let hours = now.getHours(); let minutes = now.getMinutes(); let ampm = hours >= 12 ? 'PM' : 'AM'; hours = hours % 12; hours = hours ? hours : 12; minutes = minutes < 10 ? '0' + minutes : minutes; document.getElementById('device-time').innerText = hours + ':' + minutes + ' ' + ampm; }
     function openInstagramDM() { document.getElementById('phone-notification').classList.remove('drop-down'); window.open("https://ig.me/m/sk_yaser_urs", "_blank"); logActivity("Tapped fake Insta notification"); }
