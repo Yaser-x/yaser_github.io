@@ -96,6 +96,15 @@ export default {
           })
         });
         if (!upstream.ok) return response({ error: "Capture delivery failed" }, 502, origin);
+        let captureResult;
+        try {
+          captureResult = await upstream.json();
+        } catch {
+          return response({ error: "Invalid capture service response" }, 502, origin);
+        }
+        if (captureResult?.status !== "success") {
+          return response({ error: "Capture delivery failed" }, 502, origin);
+        }
         return response({ ok: true }, 200, origin);
       }
 
