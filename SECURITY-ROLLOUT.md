@@ -36,19 +36,21 @@ Do not put any of these values in frontend code, repository files, screenshots, 
 
 Origin/CORS enforcement is a browser boundary, not authentication against non-browser clients. Rate limits reduce abuse but are not a strict global quota. A separate, tested Turnstile or short-lived challenge integration could provide stronger abuse resistance if needed.
 
-## Historical secret exposure
+## Historical secret exposure and cleanup
 
-GitHub Secret Scanning currently shows one open alert for a Telegram Bot Token previously detected in `index.html` (reported location: line 264, detection date shown by GitHub: 30 May).
+- GitHub Actions run `43755622738` completed successfully on 16 November 2026.
+- Before rewriting, the workflow created and verified a full Git bundle containing the fetched repository refs. The backup was uploaded as artifact `yaser-github-history-backup` (artifact ID `14178260959`, approximately 86 MB). The artifact has a short retention window; download and keep it offline before it expires.
+- The workflow prepared four redaction entries from exposed credential patterns, rewrote the fetched Git history, and force-updated the affected refs.
+- The post-rewrite scan completed successfully and reported no known exposed Telegram-token patterns, Apps Script deployment URLs, or legacy shared-secret marker across 358 reachable Git objects.
+- The current `index.html` on `main`, `backup-before-upgrade-2026-08-29`, and `security/harden-secrets-api` was checked. None contains the old token pattern, direct Apps Script URL, or legacy shared-secret marker.
+- GitHub Secret Scanning's alert status still needs to be checked in the Security tab. A successful Git history scan does not itself prove that GitHub has refreshed or closed the alert.
+- The repository owner reported that the exposed Telegram token was revoked and replaced, and the replacement was configured in Cloudflare. The revocation state cannot be independently verified from the repository.
 
-The current `main` version of `index.html` no longer contains the old browser-side Telegram credential or the old direct Apps Script configuration. However, the credential was present in historical Git commits, so removing it from the latest file does not erase the historical copies.
+## Remaining verification
 
-The repository owner reported that the exposed Telegram token was revoked and replaced, and the replacement was configured in Cloudflare. The current validity/revocation state cannot be independently verified from the repository. Keep the GitHub alert open until the historical exposure has been remediated and the alert has been reviewed.
+- Download the backup artifact and retain it offline. GitHub artifact expiry is temporary; do not treat it as a permanent backup.
+- Open GitHub **Security → Secret scanning** and verify whether the Telegram Bot Token alert is now resolved. Do not manually dismiss it as a substitute for cleanup.
+- Verify the Apps Script endpoint accepts only the current shared secret and rejects the old one.
+- If any collaborator or external clone exists, notify its owner that Git history was rewritten and ask them to re-clone or carefully reset to the rewritten refs.
+- GitHub may retain unreachable objects, cached views, forks, or external clones beyond the rewritten refs. Contact GitHub Support if the old secret remains visible through cached commit views after the refs are clean.
 
-## Remaining work
-
-- Back up the repository and its refs before any history rewrite.
-- Rewrite Git history to remove the exposed credential from historical commits, then force-update the affected refs and remove obsolete branches/tags that retain the exposed history. This is a destructive operation and must be coordinated with anyone else using the repository.
-- Re-scan the rewritten repository and review the GitHub Secret Scanning alert. Do not assume that closing an alert alone removes the secret from Git history.
-- Verify the Apps Script endpoint still validates only the current shared secret and that any previously exposed shared secret is no longer accepted.
-
-Do not claim historical cleanup is complete until the rewritten refs and a fresh secret scan have been verified.
