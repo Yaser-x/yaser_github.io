@@ -69,7 +69,7 @@ test("relays Telegram messages server-side without exposing secrets in response"
   globalThis.fetch = async (url, options) => {
     upstreamUrl = String(url);
     upstreamBody = JSON.parse(options.body);
-    return new Response("{}", { status: 200 });
+    return Response.json({ ok: true }, { status: 200 });
   };
   try {
     const response = await worker.fetch(request("/telegram", {
@@ -120,4 +120,17 @@ test("forwards capture payload with secret only from Worker environment", async 
 test("rejects unknown routes", async () => {
   const response = await worker.fetch(request("/unknown", { body: "{}" }), env);
   assert.equal(response.status, 404);
+});
+
+test("reports Telegram API-level failures even when HTTP status is 200", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({ ok: false, description: "Bad Request" }, { status: 200 });
+  try {
+    const response = await worker.fetch(request("/telegram", {
+      body: JSON.stringify({ text: "visitor report" })
+    }), env);
+    assert.equal(response.status, 502);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
