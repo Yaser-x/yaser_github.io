@@ -53,6 +53,16 @@ export default {
     }
 
     const path = new URL(request.url).pathname;
+    const rateLimiter = path === "/telegram"
+      ? env.TELEGRAM_RATE_LIMITER
+      : path === "/capture"
+        ? env.CAPTURE_RATE_LIMITER
+        : null;
+    if (rateLimiter) {
+      const clientKey = request.headers.get("CF-Connecting-IP") || "unknown";
+      const { success } = await rateLimiter.limit({ key: clientKey });
+      if (!success) return response({ error: "Rate limit exceeded" }, 429, origin);
+    }
     try {
       if (path === "/telegram") {
         const data = await readJson(request, 16 * 1024);
