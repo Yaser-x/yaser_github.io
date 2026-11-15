@@ -23,7 +23,7 @@ function allowedOrigin(request, env) {
 
 async function readJson(request, maxBytes) {
   const length = Number(request.headers.get("Content-Length") || 0);
-  if (length > maxBytes) throw new Error("Request too large");
+  if (length > maxBytes) throw new RangeError("Request too large");
   const raw = await request.text();
   if (new TextEncoder().encode(raw).length > maxBytes) throw new Error("Request too large");
   return JSON.parse(raw);
@@ -98,8 +98,8 @@ export default {
 
       return response({ error: "Not found" }, 404, origin);
     } catch (error) {
-      const status = error instanceof SyntaxError ? 400 : 413;
-      return response({ error: status === 400 ? "Invalid JSON" : "Request rejected" }, status, origin);
+      const status = error instanceof SyntaxError ? 400 : error instanceof RangeError ? 413 : 502;
+      return response({ error: status === 400 ? "Invalid JSON" : status === 413 ? "Request too large" : "Upstream request failed" }, status, origin);
     }
   }
 };
