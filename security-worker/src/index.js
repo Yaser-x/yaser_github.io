@@ -48,7 +48,7 @@ export default {
 
     if (!origin) return response({ error: "Origin not allowed" }, 403);
     if (request.method !== "POST") return response({ error: "Method not allowed" }, 405, origin);
-    if (!/^application\\/json(?:;|$)/i.test(request.headers.get("Content-Type") || "")) {
+    if (!(request.headers.get("Content-Type") || "").toLowerCase().startsWith("application/json")) {
       return response({ error: "JSON required" }, 415, origin);
     }
 
@@ -75,7 +75,7 @@ export default {
       if (path === "/capture") {
         const data = await readJson(request, 6 * 1024 * 1024);
         if (typeof data.image !== "string" ||
-            !/^data:image\\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(data.image) ||
+            !data.image.startsWith("data:image/jpeg;base64,") || !/^[A-Za-z0-9+/=]+$/.test(data.image.slice(23)) ||
             data.image.length > 5 * 1024 * 1024) {
           return response({ error: "Invalid image payload" }, 400, origin);
         }
