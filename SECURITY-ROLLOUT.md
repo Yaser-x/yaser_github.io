@@ -40,6 +40,15 @@ The frontend now uses the deployed Worker URL. The committed changes:
 
 A public website cannot safely authenticate itself with a hard-coded shared key: visitors can extract it. The Worker therefore enforces the exact Origin as a browser boundary, but Origin/CORS is not authentication against non-browser clients. WAF rate limits and abuse monitoring are required before cutover. For stronger abuse resistance, add Cloudflare Turnstile or a server-issued short-lived challenge in a separate tested change.
 
+## Worker rate limiting update
+
+The repository now defines two Cloudflare Workers Rate Limiting bindings in `security-worker/wrangler.toml`:
+
+- `TELEGRAM_RATE_LIMITER`: 10 requests per 60 seconds per client IP and Cloudflare location.
+- `CAPTURE_RATE_LIMITER`: 4 requests per 60 seconds per client IP and Cloudflare location.
+
+The Worker checks these bindings before contacting Telegram or Apps Script and returns HTTP 429 when a limit is exceeded. These limits are approximate and local to each Cloudflare location, not strict global quotas. The Cloudflare Worker must be redeployed with the updated source and bindings before these controls are active in production. Do not remove or rename the existing encrypted secrets when deploying.
+
 ## Historical exposure
 
 Removing a credential from the latest file does not remove it from Git history. Rotate/revoke every exposed credential first. Consider rewriting repository history only after making an offline backup and coordinating any collaborators; force-pushing history can disrupt clones and deployments.
