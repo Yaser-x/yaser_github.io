@@ -1,0 +1,15 @@
+name = "dual-vibe-secure-api"
+main = "src/index.js"
+compatibility_date = "2026-11-15"
+
+[vars]
+ALLOWED_ORIGIN = "https://yaser-x.github.io"
+
+# Configure these as encrypted Worker secrets, never as [vars]:
+# TELEGRAM_BOT_TOKEN
+# TELEGRAM_CHAT_ID
+# GOOGLE_APP_URL
+# GOOGLE_APP_SECRET
+
+# Add Cloudflare WAF rate-limit rules for POST /telegram and POST /capture
+# before production traffic is switched to this Worker.
