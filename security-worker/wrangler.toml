@@ -13,3 +13,21 @@ ALLOWED_ORIGIN = "https://yaser-x.github.io"
 
 # Add Cloudflare WAF rate-limit rules for POST /telegram and POST /capture
 # before production traffic is switched to this Worker.
+
+
+# Approximate per-location abuse controls. These are not global strict quotas.
+[[ratelimits]]
+name = "TELEGRAM_RATE_LIMITER"
+namespace_id = "62001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+[[ratelimits]]
+name = "CAPTURE_RATE_LIMITER"
+namespace_id = "62002"
+
+  [ratelimits.simple]
+  limit = 4
+  period = 60
