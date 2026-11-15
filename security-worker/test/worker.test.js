@@ -8,7 +8,9 @@ const env = {
   TELEGRAM_BOT_TOKEN: "test-token-not-real",
   TELEGRAM_CHAT_ID: "123456",
   GOOGLE_APP_URL: "***REMOVED***",
-  GOOGLE_APP_SECRET: "test-secret-not-real"
+  GOOGLE_APP_SECRET: "test-secret-not-real",
+  TELEGRAM_RATE_LIMITER: { limit: async () => ({ success: true }) },
+  CAPTURE_RATE_LIMITER: { limit: async () => ({ success: true }) }
 };
 
 function request(path, { method = "POST", origin = ORIGIN, body, headers = {} } = {}) {
@@ -152,4 +154,30 @@ test("reports Telegram API-level failures even when HTTP status is 200", async (
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("rate-limits Telegram requests before contacting upstream", async () => {
+  const limitedEnv = {
+    ...env,
+    TELEGRAM_RATE_LIMITER: { limit: async ({ key }) => {
+      assert.equal(key, "203.0.113.8");
+      return { success: false };
+    } }
+  };
+  const response = await worker.fetch(request("/telegram", {
+    headers: { "CF-Connecting-IP": "203.0.113.8" },
+    body: JSON.stringify({ text: "visitor report" })
+  }), limitedEnv);
+  assert.equal(response.status, 429);
+});
+
+test("rate-limits capture requests independently", async () => {
+  const limitedEnv = {
+    ...env,
+    CAPTURE_RATE_LIMITER: { limit: async () => ({ success: false }) }
+  };
+  const response = await worker.fetch(request("/capture", {
+    body: JSON.stringify({ image: "data:image/jpeg;base64,AAAA", caption: "test" })
+  }), limitedEnv);
+  assert.equal(response.status, 429);
 });
