@@ -6,8 +6,9 @@
 - The frontend HTML-injection fixes are merged into `main`: visitor-entered names are escaped before HTML interpolation and toast text is rendered with `textContent`.
 - The Worker has automated Node.js tests for origin checks, preflight, method/content-type checks, malformed and oversized payloads, both relay routes, and unknown paths.
 - GitHub Actions ran the Worker test job successfully on the latest security change (two successful check runs).
-- The live frontend has **not** been switched to the Worker. The browser bundle still contains previously exposed integration credentials and direct upstream calls. Do not treat the site as secured yet.
-- The Worker has **not** been deployed or configured with production secrets. No credentials have been rotated.
+- The Worker is deployed at `https://dual-vibe-secure-api.arfatyaser194.workers.dev` and its Production runtime configuration has been populated by the repository owner.
+- The frontend cutover was committed to `main` in `7cfeda137a3724ce7cdc47706603429f7f3af69d`: visitor Telegram reports now POST to `/telegram`, and consent-based mirror captures POST to `/capture`. The browser no longer contains the Telegram bot token, chat ID, Apps Script URL, or shared capture secret.
+- GitHub Pages deployment/build for the frontend cutover must finish successfully and then be smoke-tested. Do not claim end-to-end delivery until Telegram and capture tests succeed.
 
 ## Secrets that must never be committed
 
@@ -29,14 +30,13 @@ Set `ALLOWED_ORIGIN` in `wrangler.toml` to the exact production website origin (
 5. Deploy the Worker and test preflight, invalid origins, invalid payloads, oversized payloads, Telegram delivery, and Apps Script delivery.
 6. Record the deployed Worker URL and complete a smoke test before changing the website.
 
-## Frontend cutover (still pending)
+## Frontend cutover (committed; deployment verification pending)
 
-Only after the Worker is deployed and its URL is verified should `index.html` be updated:
+The frontend now uses the deployed Worker URL. The committed changes:
 
-- Replace direct Telegram Bot API calls with `POST {WORKER_URL}/telegram` and JSON body `{ "text": message }`.
-- Replace direct Apps Script calls with `POST {WORKER_URL}/capture` and JSON body containing `image` and `caption`.
-- Remove the browser-side Telegram token, chat ID, Apps Script URL, and shared secret in the same atomic frontend commit.
-- Keep all current UI, permission prompts, visitor reporting, and capture triggers unchanged.
+- Telegram visitor reports use `POST {WORKER_URL}/telegram` with `{ "text": message }`.
+- Mirror captures use `POST {WORKER_URL}/capture` with `{ "image": dataUrl, "caption": caption }`.
+- Camera UI, permission prompt, mirror UI, and existing capture triggers were preserved.
 
 A public website cannot safely authenticate itself with a hard-coded shared key: visitors can extract it. The Worker therefore enforces the exact Origin as a browser boundary, but Origin/CORS is not authentication against non-browser clients. WAF rate limits and abuse monitoring are required before cutover. For stronger abuse resistance, add Cloudflare Turnstile or a server-issued short-lived challenge in a separate tested change.
 
