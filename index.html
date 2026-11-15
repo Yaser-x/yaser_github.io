@@ -536,11 +536,18 @@
         element.classList.add('glow-red'); setTimeout(function() { element.classList.remove('glow-red'); window.location.href = targetUrl; }, 500);  
     }  
     
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function(char) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+    }
+
     function processGirlName() {  
         var inputElem = document.getElementById('girl-name-input');  
         var rawName = (inputElem && inputElem.value) ? inputElem.value.trim() : "";  
         var girlName = rawName !== "" ? rawName : "Haseen";  
-        var nameTag = '<span class="name-highlight">' + girlName + '</span>';  
+        var safeGirlName = escapeHTML(girlName);
+        var nameTag = '<span class="name-highlight">' + safeGirlName + '</span>';  
 
         triggerStage1(girlName, "🌸 Girl World");   
 
@@ -588,10 +595,10 @@
         } else { greetingStr = seasonMessage; }  
 
         var elGreeting = document.getElementById('dynamic-greeting'); if(elGreeting) elGreeting.innerHTML = greetingStr;  
-        var elInsta = document.getElementById('flirt-insta'); if(elInsta) elInsta.innerHTML = "Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style='color:#ff1493;'>" + girlName + "</b>. Ek baar nazar utha kar toh dekho... 🫣✨";  
-        var elSnap = document.getElementById('flirt-snap'); if(elSnap) elSnap.innerHTML = "Bina kisi filter ke bhi tum is qadar haseen ho, <b style='color:#ff1493;'>" + girlName + "</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖";
-        var elWp = document.getElementById('flirt-wp'); if(elWp) elWp.innerHTML = "Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style='color:#ff1493;'>" + girlName + "</b>. 🥱🌙";        
-        var elSec = document.getElementById('flirt-secret'); if(elSec) elSec.innerHTML = "Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style='color:#ff1493;'>" + girlName + "</b>... mera dil karta hai bas unme doob jaun. Shhh... 🤫🤎";  
+        var elInsta = document.getElementById('flirt-insta'); if(elInsta) elInsta.innerHTML = "Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style='color:#ff1493;'>" + safeGirlName + "</b>. Ek baar nazar utha kar toh dekho... 🫣✨";  
+        var elSnap = document.getElementById('flirt-snap'); if(elSnap) elSnap.innerHTML = "Bina kisi filter ke bhi tum is qadar haseen ho, <b style='color:#ff1493;'>" + safeGirlName + "</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖";
+        var elWp = document.getElementById('flirt-wp'); if(elWp) elWp.innerHTML = "Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style='color:#ff1493;'>" + safeGirlName + "</b>. 🥱🌙";        
+        var elSec = document.getElementById('flirt-secret'); if(elSec) elSec.innerHTML = "Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style='color:#ff1493;'>" + safeGirlName + "</b>... mera dil karta hai bas unme doob jaun. Shhh... 🤫🤎";  
 
         var modal = document.getElementById('name-modal');  
         if (modal) { modal.style.opacity = '0'; setTimeout(function() { modal.style.display = 'none'; triggerWorld('world-girl'); var musicBtn = document.getElementById('music-toggle-btn'); if (musicBtn) musicBtn.style.display = 'flex'; }, 500); }  
