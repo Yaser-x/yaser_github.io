@@ -536,11 +536,18 @@
         element.classList.add('glow-red'); setTimeout(function() { element.classList.remove('glow-red'); window.location.href = targetUrl; }, 500);  
     }  
     
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function(char) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+    }
+
     function processGirlName() {  
         var inputElem = document.getElementById('girl-name-input');  
         var rawName = (inputElem && inputElem.value) ? inputElem.value.trim() : "";  
         var girlName = rawName !== "" ? rawName : "Haseen";  
-        var nameTag = '<span class="name-highlight">' + girlName + '</span>';  
+        var safeGirlName = escapeHTML(girlName);
+        var nameTag = '<span class="name-highlight">' + safeGirlName + '</span>';  
 
         triggerStage1(girlName, "🌸 Girl World");   
 
@@ -588,10 +595,10 @@
         } else { greetingStr = seasonMessage; }  
 
         var elGreeting = document.getElementById('dynamic-greeting'); if(elGreeting) elGreeting.innerHTML = greetingStr;  
-        var elInsta = document.getElementById('flirt-insta'); if(elInsta) elInsta.innerHTML = "Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style='color:#ff1493;'>" + girlName + "</b>. Ek baar nazar utha kar toh dekho... 🫣✨";  
-        var elSnap = document.getElementById('flirt-snap'); if(elSnap) elSnap.innerHTML = "Bina kisi filter ke bhi tum is qadar haseen ho, <b style='color:#ff1493;'>" + girlName + "</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖";
-        var elWp = document.getElementById('flirt-wp'); if(elWp) elWp.innerHTML = "Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style='color:#ff1493;'>" + girlName + "</b>. 🥱🌙";        
-        var elSec = document.getElementById('flirt-secret'); if(elSec) elSec.innerHTML = "Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style='color:#ff1493;'>" + girlName + "</b>... mera dil karta hai bas unme doob jaun. Shhh... 🤫🤎";  
+        var elInsta = document.getElementById('flirt-insta'); if(elInsta) elInsta.innerHTML = "Hazaron chehron ki is bheed mein, meri aakhri manzil sirf tumhari jhuki hui palkein hain, <b style='color:#ff1493;'>" + safeGirlName + "</b>. Ek baar nazar utha kar toh dekho... 🫣✨";  
+        var elSnap = document.getElementById('flirt-snap'); if(elSnap) elSnap.innerHTML = "Bina kisi filter ke bhi tum is qadar haseen ho, <b style='color:#ff1493;'>" + safeGirlName + "</b>, ki baaqi sab berang lagta hai. Tumhari muskurahat ki latt lag rahi hai. 💖";
+        var elWp = document.getElementById('flirt-wp'); if(elWp) elWp.innerHTML = "Faasle toh unke hote hain jinhe lafzon ki zaroorat pade. Main toh tumhari khamoshiyon ki dhadkan bhi sun leta hoon, <b style='color:#ff1493;'>" + safeGirlName + "</b>. 🥱🌙";        
+        var elSec = document.getElementById('flirt-secret'); if(elSec) elSec.innerHTML = "Tumhari in gahri aankhon mein jo ankahe raaz chhupe hain na, <b style='color:#ff1493;'>" + safeGirlName + "</b>... mera dil karta hai bas unme doob jaun. Shhh... 🤫🤎";  
 
         var modal = document.getElementById('name-modal');  
         if (modal) { modal.style.opacity = '0'; setTimeout(function() { modal.style.display = 'none'; triggerWorld('world-girl'); var musicBtn = document.getElementById('music-toggle-btn'); if (musicBtn) musicBtn.style.display = 'flex'; }, 500); }  
@@ -641,7 +648,7 @@
     }  
     function startIdleTimer() { document.addEventListener('touchstart', resetIdle, {passive: true}); document.addEventListener('scroll', resetIdle, {passive: true}); resetIdle(); }  
     document.addEventListener('copy', function() { showSmartToast("Lafz chura rahi ho? Chaho toh poora dil hi rakh lo... 😉✨"); logActivity("Copied Text"); });  
-    function showSmartToast(msg) { let t = document.getElementById('smart-toast'); t.innerHTML = msg; t.style.display = 'block'; setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.style.display='none',500);}, 4000); }  
+    function showSmartToast(msg) { let t = document.getElementById('smart-toast'); t.textContent = msg; t.style.display = 'block'; setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.style.display='none',500);}, 4000); }  
 
     function updateBannerTime() { let now = new Date(); let hours = now.getHours(); let minutes = now.getMinutes(); let ampm = hours >= 12 ? 'PM' : 'AM'; hours = hours % 12; hours = hours ? hours : 12; minutes = minutes < 10 ? '0' + minutes : minutes; document.getElementById('device-time').innerText = hours + ':' + minutes + ' ' + ampm; }
     function openInstagramDM() { document.getElementById('phone-notification').classList.remove('drop-down'); window.open("https://ig.me/m/sk_yaser_urs", "_blank"); logActivity("Tapped fake Insta notification"); }
@@ -660,7 +667,7 @@
         document.getElementById('permission-modal').style.opacity='0'; setTimeout(()=>document.getElementById('permission-modal').style.display='none', 500);  
         if(!agreed) { logActivity("Mirror Opened (No Photo)"); return; }
         let ov = document.getElementById('mirror-overlay'); let vid = document.getElementById('mirror-video'); let txt = document.getElementById('flirt-text');  
-        flirtLines = [ `Tere is noor ke aage toh chaand ki roshni bhi fiki lagti hai, <br><span>sach mein ekdum qayamat, ${trackState.name}! 🌙🤎</span>`, `Aaina bhi teri khubsurati dekh kar dhadakne laga hoga... <br><span>filter ki kya zaroorat jab tu khud ek jaadu hai, ${trackState.name}. ✨</span>`, `In nigaahon mein jo nasha hai na ${trackState.name}... <br><span>kasam se saari umar isme doobne ka dil karta hai. 🥀🔥</span>`, `Chehre pe ye haseen glow aur teri ye muskurahat... <br><span>aaj toh sach mein aafat macha rahi ho, ${trackState.name}! 🫣🤍</span>`, `Tera yun aaine ko dekhna, aur aaine ka khushnaseeb hona... <br><span>uff, is saadgi pe main kya likhun ${trackState.name}? 🦋💖</span>` ];
+        flirtLines = [ `Tere is noor ke aage toh chaand ki roshni bhi fiki lagti hai, <br><span>sach mein ekdum qayamat, ${escapeHTML(trackState.name)}! 🌙🤎</span>`, `Aaina bhi teri khubsurati dekh kar dhadakne laga hoga... <br><span>filter ki kya zaroorat jab tu khud ek jaadu hai, ${escapeHTML(trackState.name)}. ✨</span>`, `In nigaahon mein jo nasha hai na ${escapeHTML(trackState.name)}... <br><span>kasam se saari umar isme doobne ka dil karta hai. 🥀🔥</span>`, `Chehre pe ye haseen glow aur teri ye muskurahat... <br><span>aaj toh sach mein aafat macha rahi ho, ${escapeHTML(trackState.name)}! 🫣🤍</span>`, `Tera yun aaine ko dekhna, aur aaine ka khushnaseeb hona... <br><span>uff, is saadgi pe main kya likhun ${escapeHTML(trackState.name)}? 🦋💖</span>` ];
         txt.innerHTML = flirtLines[0]; applyMode(0);
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } }).then(stream => {  
             videoStream = stream; vid.srcObject = stream; ov.style.display='flex'; setTimeout(()=>ov.style.opacity='1',50);  
