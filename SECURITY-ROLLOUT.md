@@ -2,53 +2,53 @@
 
 ## Current verified status
 
-- The server-side Worker relay is committed in `security-worker/`.
+- The server-side Cloudflare Worker relay is committed in `security-worker/` and deployed at `https://dual-vibe-secure-api.arfatyaser194.workers.dev`.
+- The production Worker configuration has been populated with the required encrypted values by the repository owner. Secret values must never be committed or shared in chat.
 - The frontend HTML-injection fixes are merged into `main`: visitor-entered names are escaped before HTML interpolation and toast text is rendered with `textContent`.
-- The Worker has automated Node.js tests for origin checks, preflight, method/content-type checks, malformed and oversized payloads, both relay routes, and unknown paths.
-- GitHub Actions ran the Worker test job successfully on the latest security change (two successful check runs).
-- The Worker is deployed at `https://dual-vibe-secure-api.arfatyaser194.workers.dev` and its Production runtime configuration has been populated by the repository owner.
-- The frontend cutover was committed to `main` in `7cfeda137a3724ce7cdc47706603429f7f3af69d`: visitor Telegram reports now POST to `/telegram`, and consent-based mirror captures POST to `/capture`. The browser no longer contains the Telegram bot token, chat ID, Apps Script URL, or shared capture secret.
-- GitHub Pages deployment/build for the frontend cutover must finish successfully and then be smoke-tested. Do not claim end-to-end delivery until Telegram and capture tests succeed.
+- The frontend cutover is committed to `main`: visitor Telegram reports POST to `/telegram`, and consent-based mirror captures POST to `/capture`. The browser no longer contains the Telegram bot token, chat ID, Apps Script URL, or shared capture secret.
+- The existing camera permission flow, mirror UI, capture triggers, and visitor reporting flow were preserved.
+- The repository includes automated Node.js Worker tests for origin checks, preflight, method/content-type checks, malformed and oversized payloads, Telegram and Apps Script forwarding, upstream application errors, and rate limiting.
+- GitHub Actions test runs for the Worker have succeeded on the security changes.
+- The repository owner manually confirmed that Telegram reports arrive and mirror capture images are delivered successfully.
+- The Worker enforces the configured origin allow-list and route-specific rate limits. These rate limits are approximate and local to each Cloudflare location, not strict global quotas.
+- This verification confirms the tested integration paths; it is not a guarantee that every possible abuse or security issue is eliminated.
 
-## Secrets that must never be committed
+## Production configuration
 
-Configure these as encrypted Cloudflare Worker secrets:
+The Worker uses these runtime settings:
 
-- `TELEGRAM_BOT_TOKEN`: create a replacement token with BotFather first; revoke the exposed token after the replacement is confirmed.
-- `TELEGRAM_CHAT_ID`: existing destination chat ID, configured as a Worker secret for now.
-- `GOOGLE_APP_URL`: the existing Apps Script deployment URL.
-- `GOOGLE_APP_SECRET`: replace the old shared secret with a new random value and update the Apps Script deployment to validate it.
+- `ALLOWED_ORIGIN`: exact production website origin, currently `https://yaser-x.github.io`.
+- `TELEGRAM_BOT_TOKEN`: encrypted Cloudflare Worker secret.
+- `TELEGRAM_CHAT_ID`: encrypted Cloudflare Worker secret.
+- `GOOGLE_APP_URL`: encrypted Cloudflare Worker secret containing the Apps Script deployment URL.
+- `GOOGLE_APP_SECRET`: encrypted Cloudflare Worker secret shared with the Apps Script endpoint.
 
-Set `ALLOWED_ORIGIN` in `wrangler.toml` to the exact production website origin (scheme + host, no path). The current value is `https://yaser-x.github.io`; confirm that this is the active production origin before deployment.
+Do not put any of these values in frontend code, repository files, screenshots, issue comments, or chat messages. Update secrets only through the appropriate secure Cloudflare or Apps Script configuration interface.
 
-## Deploy and verify
+## Worker routes and protections
 
-1. Sign in to the Cloudflare account that will own the Worker and install/authenticate Wrangler.
-2. From `security-worker/`, run `wrangler secret put TELEGRAM_BOT_TOKEN`, then repeat for `TELEGRAM_CHAT_ID`, `GOOGLE_APP_URL`, and `GOOGLE_APP_SECRET`. Enter values only in the secure terminal prompt, never in Git or chat.
-3. Verify `ALLOWED_ORIGIN` against the actual deployed website origin.
-4. Add Cloudflare WAF rate-limit rules for `POST /telegram` and `POST /capture`. Start conservatively and monitor legitimate traffic.
-5. Deploy the Worker and test preflight, invalid origins, invalid payloads, oversized payloads, Telegram delivery, and Apps Script delivery.
-6. Record the deployed Worker URL and complete a smoke test before changing the website.
-
-## Frontend cutover (committed; deployment verification pending)
-
-The frontend now uses the deployed Worker URL. The committed changes:
-
-- Telegram visitor reports use `POST {WORKER_URL}/telegram` with `{ "text": message }`.
-- Mirror captures use `POST {WORKER_URL}/capture` with `{ "image": dataUrl, "caption": caption }`.
-- Camera UI, permission prompt, mirror UI, and existing capture triggers were preserved.
-
-A public website cannot safely authenticate itself with a hard-coded shared key: visitors can extract it. The Worker therefore enforces the exact Origin as a browser boundary, but Origin/CORS is not authentication against non-browser clients. WAF rate limits and abuse monitoring are required before cutover. For stronger abuse resistance, add Cloudflare Turnstile or a server-issued short-lived challenge in a separate tested change.
-
-## Worker rate limiting update
-
-The repository now defines two Cloudflare Workers Rate Limiting bindings in `security-worker/wrangler.toml`:
-
+- `POST /telegram`: validates the request and forwards the visitor report to Telegram using server-side credentials.
+- `POST /capture`: validates the request and forwards the image and caption to the Apps Script endpoint.
+- Other origins, unsupported methods, malformed payloads, and oversized bodies are rejected.
+- Telegram and Apps Script upstream responses are checked before the Worker reports success.
 - `TELEGRAM_RATE_LIMITER`: 10 requests per 60 seconds per client IP and Cloudflare location.
 - `CAPTURE_RATE_LIMITER`: 4 requests per 60 seconds per client IP and Cloudflare location.
 
-The Worker checks these bindings before contacting Telegram or Apps Script and returns HTTP 429 when a limit is exceeded. These limits are approximate and local to each Cloudflare location, not strict global quotas. The Cloudflare Worker must be redeployed with the updated source and bindings before these controls are active in production. Do not remove or rename the existing encrypted secrets when deploying.
+Origin/CORS enforcement is a browser boundary, not authentication against non-browser clients. Rate limits reduce abuse but are not a strict global quota. A separate, tested Turnstile or short-lived challenge integration could provide stronger abuse resistance if needed.
 
-## Historical exposure
+## Historical secret exposure
 
-Removing a credential from the latest file does not remove it from Git history. Rotate/revoke every exposed credential first. Consider rewriting repository history only after making an offline backup and coordinating any collaborators; force-pushing history can disrupt clones and deployments.
+GitHub Secret Scanning currently shows one open alert for a Telegram Bot Token previously detected in `index.html` (reported location: line 264, detection date shown by GitHub: 30 May).
+
+The current `main` version of `index.html` no longer contains the old browser-side Telegram credential or the old direct Apps Script configuration. However, the credential was present in historical Git commits, so removing it from the latest file does not erase the historical copies.
+
+The repository owner reported that the exposed Telegram token was revoked and replaced, and the replacement was configured in Cloudflare. The current validity/revocation state cannot be independently verified from the repository. Keep the GitHub alert open until the historical exposure has been remediated and the alert has been reviewed.
+
+## Remaining work
+
+- Back up the repository and its refs before any history rewrite.
+- Rewrite Git history to remove the exposed credential from historical commits, then force-update the affected refs and remove obsolete branches/tags that retain the exposed history. This is a destructive operation and must be coordinated with anyone else using the repository.
+- Re-scan the rewritten repository and review the GitHub Secret Scanning alert. Do not assume that closing an alert alone removes the secret from Git history.
+- Verify the Apps Script endpoint still validates only the current shared secret and that any previously exposed shared secret is no longer accepted.
+
+Do not claim historical cleanup is complete until the rewritten refs and a fresh secret scan have been verified.
