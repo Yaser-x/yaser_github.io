@@ -69,6 +69,8 @@ export default {
           })
         });
         if (!upstream.ok) return response({ error: "Message delivery failed" }, 502, origin);
+        const telegramResult = await upstream.json();
+        if (telegramResult?.ok !== true) return response({ error: "Message delivery failed" }, 502, origin);
         return response({ ok: true }, 200, origin);
       }
 
