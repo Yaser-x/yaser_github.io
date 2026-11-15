@@ -1,0 +1,131 @@
+name: Purge exposed credentials from Git history
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type PURGE_HISTORY to confirm the backup-and-rewrite operation
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: purge-git-history
+  cancel-in-progress: false
+
+jobs:
+  backup-and-rewrite:
+    if: ${{ inputs.confirm == 'PURGE_HISTORY' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out complete repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Create complete refs backup
+        shell: bash
+        run: |
+          git bundle create "$RUNNER_TEMP/yaser-github-history-backup.bundle" --all
+          git bundle verify "$RUNNER_TEMP/yaser-github-history-backup.bundle"
+          sha256sum "$RUNNER_TEMP/yaser-github-history-backup.bundle" > "$RUNNER_TEMP/backup.sha256"
+
+      - name: Store protected backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaser-github-history-backup
+          path: |
+            ${{ runner.temp }}/yaser-github-history-backup.bundle
+            ${{ runner.temp }}/backup.sha256
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Install history rewrite tool
+        run: |
+          python -m pip install --disable-pip-version-check git-filter-repo
+
+      - name: Discover exposed values without printing them
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/make-replacements.py" <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+
+          object_lines = subprocess.check_output(
+              ["git", "rev-list", "--objects", "--all"], text=True
+          ).splitlines()
+          seen = set()
+          values = set()
+          token_re = re.compile(rb"(?<![A-Za-z0-9_-])[0-9]{8,12}:[A-Za-z0-9_-]{25,}(?![A-Za-z0-9_-])")
+          app_url_re = re.compile(rb"https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec")
+          legacy_shared_secret = b"***REMOVED***"
+
+          for line in object_lines:
+              oid = line.split(" ", 1)[0]
+              if oid in seen:
+                  continue
+              seen.add(oid)
+              kind = subprocess.run(
+                  ["git", "cat-file", "-t", oid],
+                  capture_output=True, text=True, check=True
+              ).stdout.strip()
+              if kind != "blob":
+                  continue
+              data = subprocess.run(
+                  ["git", "cat-file", "blob", oid],
+                  capture_output=True, check=True
+              ).stdout
+              values.update(m.group(0) for m in token_re.finditer(data))
+              values.update(m.group(0) for m in app_url_re.finditer(data))
+              if legacy_shared_secret in data:
+                  values.add(legacy_shared_secret)
+
+          out = Path("/tmp/git-secret-replacements.txt")
+          with out.open("w", encoding="utf-8") as f:
+              for value in sorted(values):
+                  f.write("literal:" + value.decode("utf-8") + "==>***REMOVED***\n")
+
+          if not values:
+              raise SystemExit("No known exposed credential patterns found; refusing to rewrite.")
+          print(f"Prepared {len(values)} redaction entries across {len(seen)} Git objects.")
+          PY
+          python "$RUNNER_TEMP/make-replacements.py"
+
+      - name: Rewrite every fetched branch and tag history
+        run: |
+          git filter-repo --force --replace-text /tmp/git-secret-replacements.txt
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push --force --all origin
+          git push --force --tags origin
+
+      - name: Confirm rewritten refs and scan for remaining known patterns
+        shell: bash
+        run: |
+          git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*' '+refs/tags/*:refs/tags/*'
+          python - <<'PY'
+          import re, subprocess
+          lines = subprocess.check_output(["git", "rev-list", "--objects", "--all"], text=True).splitlines()
+          seen = set()
+          bad = 0
+          token_re = re.compile(rb"(?<![A-Za-z0-9_-])[0-9]{8,12}:[A-Za-z0-9_-]{25,}(?![A-Za-z0-9_-])")
+          app_url_re = re.compile(rb"https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec")
+          for line in lines:
+              oid = line.split(" ", 1)[0]
+              if oid in seen:
+                  continue
+              seen.add(oid)
+              if subprocess.run(["git", "cat-file", "-t", oid], capture_output=True, text=True).stdout.strip() != "blob":
+                  continue
+              data = subprocess.run(["git", "cat-file", "blob", oid], capture_output=True).stdout
+              if token_re.search(data) or app_url_re.search(data) or b"***REMOVED***" in data:
+                  bad += 1
+          if bad:
+              raise SystemExit(f"Verification failed: {bad} reachable blobs still match known exposed patterns.")
+          print(f"Verified: no known exposed credential patterns in {len(seen)} reachable Git objects.")
+          PY
